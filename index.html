@@ -122,10 +122,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
 .btn-secondary:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-1px);}
 
 /* MAIN */
-
-@media(min-width:768px){
 .main{padding:36px 44px;max-width:960px;margin-left:330px;}
-}
 
 /* HERO */
 .hero-section{margin-bottom:56px;}
@@ -192,6 +189,18 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
 /* ABOUT */
 .about-section{margin-bottom:56px;}
 .about-text{font-size:15px;color:var(--text2);line-height:1.8;margin-bottom:14px;}
+.ai-callout{
+  display:flex;gap:16px;align-items:flex-start;
+  background:rgba(78,201,176,.06);border:1px solid rgba(78,201,176,.2);
+  border-left:3px solid var(--green);
+  border-radius:0 var(--radius) var(--radius) 0;
+  padding:20px 24px;margin:24px 0;
+  transition:all .3s;
+}
+.ai-callout:hover{border-color:var(--green);background:rgba(78,201,176,.1);}
+.ai-callout-icon{font-size:24px;flex-shrink:0;margin-top:2px;}
+.ai-callout-title{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--green);margin-bottom:6px;}
+.ai-callout-text{font-size:14px;color:var(--text2);line-height:1.7;}
 
 /* INDUSTRY CARDS */
 .industry-section{margin-bottom:56px;}
@@ -220,8 +229,17 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
 }
 .timeline-item:first-child{border-top:1px solid var(--border2);}
 .timeline-date{font-family:var(--mono);font-size:13px;color:var(--comment);padding-top:2px;}
-.timeline-logo{margin-top:10px;display:inline-flex;gap:8px;align-items:center;}
-.timeline-logo img{height:22px;width:auto;display:block;background:#fff;padding:4px 8px;border-radius:6px;}
+.timeline-logo{margin-top:10px;display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.timeline-logo a{
+  display:flex;align-items:center;justify-content:center;
+  height:32px;padding:4px 12px;background:#fff;border-radius:6px;
+  text-decoration:none;transition:all .25s;border:1px solid #eee;
+  font-family:var(--mono);font-size:11px;color:#333;font-weight:600;
+  gap:6px;
+}
+.timeline-logo a:hover{border-color:var(--green);transform:translateY(-1px);box-shadow:0 2px 8px rgba(78,201,176,.15);}
+.timeline-logo a img{height:16px;width:auto;display:block;object-fit:contain;}
+.timeline-logo a img[src=""]{display:none;}
 .timeline-role{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--white);margin-bottom:4px;}
 .timeline-company{font-size:14px;color:var(--text2);margin-bottom:10px;}
 .timeline-desc{font-size:14px;color:var(--text2);line-height:1.75;}
@@ -560,7 +578,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
       </div>
       <div class="sidebar-name">Sachin Choudhary</div>
       <div class="sidebar-role">SeniorSoftwareEngineer()</div>
-      <div class="sidebar-bio">AI-native startup engineer with 5+ years building scalable backend systems, CRM platforms, PMS integrations, and sales automation — across EdTech, FinTech, PropTech & AI.</div>
+      <div class="sidebar-bio">Backend engineer who ships 2x faster with AI. 5+ years building scalable systems across EdTech, FinTech, PropTech & AI.</div>
       <div class="sidebar-info">
         <div class="sidebar-info-item">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
@@ -596,8 +614,8 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
     <!-- HERO -->
     <section class="hero-section">
       <div class="hero-badge"><span class="kw">class</span> <span class="cls">SeniorEngineer</span>:</div>
-      <h1 class="hero-title">Backend Engineer.<br>CRM Architect.<br>AI-Native Builder.</h1>
-      <p class="hero-desc">I architect scalable backend systems, CRM platforms, and data integration pipelines — powered by AI in my daily workflow. 5+ years shipping products across EdTech, FinTech, PropTech & AI, with deep expertise in PMS integrations (Entrata, Yardi, MRI, Concurrent) and the real estate data ecosystem.</p>
+      <h1 class="hero-title">I Don't Just Write Code.<br>I Figure Out What<br>to Build — Faster.</h1>
+      <p class="hero-desc">Most engineers build what they're told. I sit with sales, marketing, and business teams — understand what actually moves the needle — then architect the backend systems that deliver it. 4 years building CRM platforms and automating lead management pipelines from capture to conversion. Deep PMS integrations across the world's most adopted platforms, and 5+ years shipping across EdTech, FinTech, PropTech & AI. AI isn't a buzzword in my workflow — it's a force multiplier.</p>
     </section>
 
     <!-- TERMINAL ABOUT -->
@@ -615,9 +633,10 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
         &nbsp;&nbsp;<span class="fn">experience</span> = <span class="str">"5+ years"</span><br>
         &nbsp;&nbsp;<span class="fn">industries</span> = [<span class="str">"EdTech"</span>, <span class="str">"FinTech"</span>, <span class="str">"PropTech"</span>, <span class="str">"AI"</span>]<br>
         &nbsp;&nbsp;<span class="fn">startups_scaled</span> = <span class="num">4</span><br>
-        &nbsp;&nbsp;<span class="fn">pms_systems</span> = [<span class="str">"Entrata"</span>, <span class="str">"Yardi"</span>, <span class="str">"MRI"</span>, <span class="str">"Concurrent"</span>]<br>
-        &nbsp;&nbsp;<span class="fn">ai_tools</span> = [<span class="str">"Copilot"</span>, <span class="str">"Claude"</span>, <span class="str">"Cursor"</span>]<br>
-        &nbsp;&nbsp;<span class="fn">philosophy</span> = <span class="str">"Ship fast. Scale smart. Automate everything."</span><br><br>
+        &nbsp;&nbsp;<span class="fn">pms_expertise</span> = <span class="str">"Deep integrations with world's most adopted PMS platforms"</span><br>
+        &nbsp;&nbsp;<span class="fn">ai_tools</span> = [<span class="str">"Copilot"</span>, <span class="str">"Claude"</span>, <span class="str">"Cursor"</span>]<br><br>
+        &nbsp;&nbsp;<span class="kw">def</span> <span class="func">philosophy</span>(<span class="type">self</span>):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> <span class="str">"AI isn't a buzzword. It's a force multiplier."</span><br><br>
         <span class="prompt">sachin@dev:~$</span> <span class="cursor"></span>
       </div>
     </div>
@@ -639,11 +658,15 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
     <!-- ABOUT -->
     <section class="about-section" id="about">
       <div class="sec-header"><h2 class="sec-title"><span class="comment"># about_me.py</span>Inside My Engineering Core</h2></div>
-      <p class="about-text">I'm a Senior Software Engineer who thrives at the intersection of backend mastery and product thinking. Over 5 years across 4 startups, I've built core CRM infrastructure, automated end-to-end sales processes, designed data integrity frameworks, and shipped platforms that serve tens of thousands of students and customers globally.</p>
-      <p class="about-text">For 4 years at UniAcco, UniCreds, and UniScholars — I worked deeply on automating the sales process through CRM systems. From lead capture and qualification, to follow-up workflows, WhatsApp campaigns, and re-engagement sequences — I built the backend machinery that powered how these platforms converted and retained users at scale.</p>
-      <p class="about-text">At VerbaFlo.AI — a $7M-funded AI communications platform — I now lead Property Management System integrations (Entrata, Yardi, MRI, Concurrent), building data pipelines that sync property, lease, and resident data across the real estate ecosystem. I've built automated ops pipelines for data verification and designed data integrity and sanity frameworks that replaced manual QA.</p>
-      <p class="about-text">I'm deeply aligned with the new era of AI-assisted engineering. I use AI tools daily — from writing and reviewing code with Copilot and Claude, to system design, debugging, and documentation. AI isn't a buzzword in my workflow; it's a force multiplier that makes me ship faster and think sharper.</p>
-      <p class="about-text">I bring deep backend expertise (my core), solid frontend understanding, DevOps fluency, real estate data domain knowledge, and real product instinct — all forged from seeing startups grow through 0→1, 1→10, and 10→100 phases firsthand.</p>
+      <p class="about-text">Senior Software Engineer with 5+ years across 4 startups. I've built core CRM infrastructure, automated end-to-end sales processes, and shipped platforms serving tens of thousands of users — from lead capture to conversion at scale. For 4 years at ASL (UniAcco, UniCreds, UniScholars), I was the engineer behind the sales automation machinery. Now at VerbaFlo.AI, I lead deep PMS integrations with the world's most adopted Property Management Systems, data integrity frameworks, and automated ops pipelines.</p>
+      <div class="ai-callout">
+        <span class="ai-callout-icon">⚡</span>
+        <div>
+          <div class="ai-callout-title">AI isn't a buzzword in my workflow — it's a force multiplier.</div>
+          <div class="ai-callout-text">I use Copilot, Claude, and Cursor daily for writing code, reviewing PRs, system design, debugging, and documentation. Engineers who treat AI as a tool, not a threat, ship 2x faster. I'm one of them.</div>
+        </div>
+      </div>
+      <p class="about-text">I bring deep backend expertise (my core), solid frontend understanding, DevOps fluency, real estate data domain knowledge, and product instinct — all forged from building through 0→1, 1→10, and 10→100 startup phases.</p>
     </section>
 
     <!-- INDUSTRIES -->
@@ -656,25 +679,25 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
         <div class="industry-card">
           <div class="ind-label">AI · Real Estate · PropTech</div>
           <div class="ind-name">VerbaFlo.AI</div>
-          <div class="ind-desc">AI-powered communications platform for real estate operators. Integrates with major PMS systems (Entrata, Yardi, MRI, Concurrent) for property, lease, and resident data.</div>
-          <div class="ind-stats"><span class="ind-stat">$7M Raised</span><span class="ind-stat">PMS Integrations</span><span class="ind-stat">Entrata · Yardi · MRI</span></div>
+          <div class="ind-desc">AI communications platform for real estate — automating lead-to-lease conversations. Deep integrations with the world's most adopted PMS platforms for property and resident data.</div>
+          <div class="ind-stats"><span class="ind-stat">$7M Raised</span><span class="ind-stat">PMS Integrations</span><span class="ind-stat">Real Estate Data</span></div>
         </div>
         <div class="industry-card">
           <div class="ind-label">EdTech · Study Abroad</div>
           <div class="ind-name">UniScholars</div>
-          <div class="ind-desc">India's one-stop study abroad solution — 600+ universities, automated lead nurturing, CRM-driven engagement.</div>
+          <div class="ind-desc">One-stop study abroad platform — 600+ universities, CRM-driven lead nurturing, automated counselling workflows.</div>
           <div class="ind-stats"><span class="ind-stat">30K+ Students</span><span class="ind-stat">600+ Universities</span><span class="ind-stat">200+ Counsellors</span></div>
         </div>
         <div class="industry-card">
           <div class="ind-label">FinTech · Education Loans</div>
           <div class="ind-name">UniCreds</div>
-          <div class="ind-desc">Education loan marketplace — 20+ lenders, sanctions in 48 hours, end-to-end loan management.</div>
+          <div class="ind-desc">Education loan marketplace — 20+ lenders, 48-hour sanctions, end-to-end application management.</div>
           <div class="ind-stats"><span class="ind-stat">₹2,000 Cr+ Disbursed</span><span class="ind-stat">20K+ Students</span><span class="ind-stat">20+ Lenders</span></div>
         </div>
         <div class="industry-card">
           <div class="ind-label">PropTech · Student Housing</div>
           <div class="ind-name">UniAcco</div>
-          <div class="ind-desc">Global student accommodation marketplace — verified listings, lowest price guarantee, 24x7 assistance.</div>
+          <div class="ind-desc">Global student accommodation marketplace — verified listings, price guarantee, 24x7 assistance.</div>
           <div class="ind-stats"><span class="ind-stat">Verified Listings</span><span class="ind-stat">Global Coverage</span><span class="ind-stat">24x7 Support</span></div>
         </div>
       </div>
@@ -687,19 +710,19 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
         <div class="timeline-item">
           <div>
             <div class="timeline-date"># 2025 – present</div>
-            <div class="timeline-logo"><img src="https://cdn.prod.website-files.com/671262cd50757509c8fdc1bb/67127c9fb807dbb72a02376d_logo.avif" alt="VerbaFlo.AI" /></div>
+            <div class="timeline-logo"><a href="https://www.verbaflo.ai/" target="_blank"><img src="https://cdn.prod.website-files.com/671262cd50757509c8fdc1bb/67127c9fb807dbb72a02376d_logo.avif" alt="VerbaFlo.AI" onerror="this.style.display='none'" />VerbaFlo.AI</a></div>
           </div>
           <div>
             <div class="timeline-role">Senior Software Engineer</div>
             <div class="timeline-company">VerbaFlo.AI · Gurgaon</div>
-            <div class="timeline-desc">Leading engineering on VerbaFlo's AI communications platform for real estate operators. Integrated with major Property Management Systems — Entrata, Yardi, MRI, Concurrent — building robust data pipelines that sync property, lease, and resident data across multi-client environments. Redesigned data synchronization architecture achieving 10x performance improvement. Engineered automated operations pipelines that replaced manual intervention. Built automated data verification and integrity/sanity frameworks. Created multi-channel outreach platform (voice, email, WhatsApp). Actively leverage AI tools (Copilot, Claude) in daily workflow.</div>
-            <div class="timeline-tags"><span>PMS Integrations</span><span>Entrata</span><span>Yardi</span><span>MRI</span><span>Data Integrity</span><span>10x Sync Perf</span></div>
+            <div class="timeline-desc">Leading engineering on VerbaFlo's AI communications platform for real estate operators. Built deep integrations with the world's most adopted Property Management Systems — robust data pipelines syncing property, lease, and resident data across multi-client environments. Redesigned data synchronization architecture achieving 10x performance improvement. Engineered automated operations pipelines that replaced manual intervention. Built automated data verification and integrity/sanity frameworks. Created multi-channel outreach platform (voice, email, WhatsApp). Actively leverage AI tools (Copilot, Claude) in daily workflow.</div>
+            <div class="timeline-tags"><span>PMS Integrations</span><span>Real Estate Data</span><span>Ops Automation</span><span>Data Integrity</span><span>10x Sync Perf</span></div>
           </div>
         </div>
         <div class="timeline-item">
           <div>
             <div class="timeline-date"># 2024 – 2025</div>
-            <div class="timeline-logo"><img src="https://unischolars.gumlet.io/2.0/logos/unischolars-logo.png?w=200&q=75" alt="UniScholars" /></div>
+            <div class="timeline-logo"><a href="https://unischolars.com/" target="_blank"><img src="https://unischolars.gumlet.io/logo/UniScholars.png?w=1280&q=75" alt="UniScholars" onerror="this.style.display='none'" />UniScholars</a></div>
           </div>
           <div>
             <div class="timeline-role">Senior Backend Engineer</div>
@@ -711,7 +734,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
         <div class="timeline-item">
           <div>
             <div class="timeline-date"># 2023 – 2024</div>
-            <div class="timeline-logo"><img src="https://unischolars.gumlet.io/2.0/logos/unischolars-logo.png?w=200&q=75" alt="UniScholars" /></div>
+            <div class="timeline-logo"><a href="https://unischolars.com/" target="_blank"><img src="https://unischolars.gumlet.io/logo/UniScholars.png?w=1280&q=75" alt="UniScholars" onerror="this.style.display='none'" />UniScholars</a></div>
           </div>
           <div>
             <div class="timeline-role">Backend Engineer</div>
@@ -723,9 +746,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
         <div class="timeline-item">
           <div>
             <div class="timeline-date"># 2021 – 2023</div>
-            <div class="timeline-logo" style="display:flex;gap:8px;align-items:center;">
-              <img src="https://uniacco.imgix.net/site-static/v2/uniacco/logo.svg" alt="UniAcco" style="height:20px;background:#fff;padding:3px 6px;border-radius:4px;" />
-              <img src="https://assets.unicreds.com/v2/unicreds/logo_full.svg" alt="UniCreds" style="height:20px;background:#fff;padding:3px 6px;border-radius:4px;" />
+            <div class="timeline-logo">
+              <a href="https://uniacco.com/" target="_blank"><img src="https://uniacco.imgix.net/site-static/v2/uniacco/logo.svg" alt="UniAcco" onerror="this.style.display='none'" />UniAcco</a>
+              <a href="https://unicreds.com/" target="_blank"><img src="https://assets.unicreds.com/v2/unicreds/logo_full.svg" alt="UniCreds" onerror="this.style.display='none'" />UniCreds</a>
             </div>
           </div>
           <div>
@@ -865,21 +888,21 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
       <div class="contact-grid">
         <a href="mailto:sachinchoudhary.nituk@gmail.com" class="contact-chip">✉️ sachinchoudhary.nituk@gmail.com</a>
         <a href="tel:+918502892661" class="contact-chip">📞 +91 8502892661</a>
-        <a href="https://github.com/sachin-choudhary" class="contact-chip" target="_blank">💻 GitHub</a>
+        <a href="https://github.com/sachinjaat" class="contact-chip" target="_blank">💻 GitHub</a>
         <a href="https://www.linkedin.com/in/sachin-choudhary-655898191/" class="contact-chip" target="_blank">🔗 LinkedIn</a>
       </div>
     </section>
 
     <div class="footer-marquee">
       <div class="footer-track">
+        <span>AI isn't a buzzword — it's a force multiplier</span><span>·</span>
         <span>EdTech · FinTech · PropTech · AI</span><span>·</span>
-        <span>₹2,000Cr+ loan platform</span><span>·</span>
-        <span>30K+ students</span><span>·</span>
+        <span>Ships 2x faster with AI</span><span>·</span>
         <span>$7M AI startup</span><span>·</span>
         <span>0→1→10→100</span><span>·</span>
+        <span>AI isn't a buzzword — it's a force multiplier</span><span>·</span>
         <span>EdTech · FinTech · PropTech · AI</span><span>·</span>
-        <span>₹2,000Cr+ loan platform</span><span>·</span>
-        <span>30K+ students</span><span>·</span>
+        <span>Ships 2x faster with AI</span><span>·</span>
         <span>$7M AI startup</span><span>·</span>
         <span>0→1→10→100</span>
       </div>
@@ -1000,7 +1023,7 @@ document.getElementById('downloadCV').addEventListener('click',function(e){
     '<a href="mailto:sachinchoudhary.nituk@gmail.com">sachinchoudhary.nituk@gmail.com</a>',
     '<a href="tel:+918502892661">+91 8502892661</a>',
     '<a href="https://www.linkedin.com/in/sachin-choudhary-655898191/">LinkedIn</a>',
-    '<a href="https://github.com/sachin-choudhary">GitHub</a>',
+    '<a href="https://github.com/sachinjaat">GitHub</a>',
     '</div>',
 
     '<div class="st">Professional Summary</div>',
