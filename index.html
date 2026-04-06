@@ -84,11 +84,21 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
 .hero-desc{font-size:16px;color:var(--text2);max-width:560px;line-height:1.75;}
 
 /* IMPACT STATS */
-.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:32px 0;padding:24px 0;border-top:1px solid var(--border2);border-bottom:1px solid var(--border2);}
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:32px 0;padding:24px 0;border-top:1px solid var(--border2);border-bottom:1px solid var(--border2);position:relative;}
+.stats-bar::before{content:'>>> sachin.stats()';position:absolute;top:-10px;left:0;font-family:var(--mono);font-size:11px;color:var(--comment);background:var(--bg);padding:0 8px 0 0;}
 .stat-card{text-align:center;padding:12px 8px;border-radius:var(--radius);transition:all .25s;cursor:default;}
 .stat-card:hover{background:var(--card);}
 .stat-num{font-family:var(--mono);font-size:28px;font-weight:800;color:var(--green);margin-bottom:4px;}
-.stat-label{font-size:12px;color:var(--text3);line-height:1.4;}
+.stat-label{font-family:var(--mono);font-size:11px;color:var(--text3);line-height:1.4;}
+
+/* SINCE BANNER */
+.since-banner{padding:14px 0;margin:0 0 8px;border-top:1px solid var(--border2);border-bottom:1px solid var(--border2);overflow:hidden;}
+.since-track{display:flex;gap:16px;animation:since-scroll 22s linear infinite;white-space:nowrap;}
+.since-track span{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--text3);}
+.since-track .kw{color:var(--keyword);}
+.since-track .num{color:var(--num);}
+.since-track .op{color:var(--text3);}
+@keyframes since-scroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 
 /* TERMINAL */
 .terminal{background:#1e1e1e;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:40px;}
@@ -220,6 +230,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
   .stats-bar{grid-template-columns:repeat(2,1fr);gap:8px;padding:16px 0;margin:24px 0;}
   .stat-num{font-size:22px;}
   .stat-label{font-size:14px !important;}
+  .since-banner{margin:0 0 20px;padding:10px 0;overflow:hidden !important;}
+  .since-track span{font-size:14px !important;}
+  .since-track *{font-size:14px !important;}
   .terminal{margin-bottom:28px;}
   .terminal-body{padding:14px !important;font-size:14px !important;line-height:1.7;white-space:pre-wrap !important;word-break:break-word !important;}
   .terminal-body *{font-size:14px !important;}
@@ -335,6 +348,24 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
     <h1 class="hero-title">I Don't Just Write Code.<br>I Figure Out What<br>to Build — Faster.</h1>
     <p class="hero-desc">Most engineers build what they're told. I sit with sales, marketing, and business teams — understand what actually moves the needle — then architect the backend systems that deliver it. 4 years building CRM platforms and automating lead management pipelines from capture to conversion. Deep PMS integrations across the world's most adopted platforms, and 5+ years shipping across EdTech, FinTech, PropTech & AI. AI isn't a buzzword in my workflow — it's a force multiplier.</p>
   </section>
+
+  <!-- CODE BANNER — first signal this isn't a template -->
+  <div class="since-banner">
+    <div class="since-track">
+      <span><span class="kw">while</span> True:</span><span class="op">·····</span>
+      <span>ai.<span class="fn">assist</span>()</span><span class="op">·····</span>
+      <span>exp += <span class="num">1</span></span><span class="op">·····</span>
+      <span><span class="kw">def</span> <span class="fn">build_faster</span>():</span><span class="op">·····</span>
+      <span><span class="kw">return</span> <span class="str">"ship_it"</span></span><span class="op">·····</span>
+      <span>startups = <span class="num">4</span></span><span class="op">·····</span>
+      <span><span class="kw">while</span> True:</span><span class="op">·····</span>
+      <span>ai.<span class="fn">assist</span>()</span><span class="op">·····</span>
+      <span>exp += <span class="num">1</span></span><span class="op">·····</span>
+      <span><span class="kw">def</span> <span class="fn">build_faster</span>():</span><span class="op">·····</span>
+      <span><span class="kw">return</span> <span class="str">"ship_it"</span></span><span class="op">·····</span>
+      <span>startups = <span class="num">4</span></span><span class="op">·····</span>
+    </div>
+  </div>
 
   <!-- IMPACT STATS -->
   <div class="stats-bar">
@@ -535,13 +566,17 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
 
   <div class="footer-marquee">
     <div class="footer-track">
+      <span>while True: build()</span><span>·</span>
       <span>AI isn't a buzzword — it's a force multiplier</span><span>·</span>
-      <span>Ships 2x faster with AI</span><span>·</span>
       <span>0→1→10→100</span><span>·</span>
+      <span>ships 2x faster with AI</span><span>·</span>
+      <span>exp += 1</span><span>·</span>
       <span>EdTech · FinTech · PropTech · AI</span><span>·</span>
+      <span>while True: build()</span><span>·</span>
       <span>AI isn't a buzzword — it's a force multiplier</span><span>·</span>
-      <span>Ships 2x faster with AI</span><span>·</span>
       <span>0→1→10→100</span><span>·</span>
+      <span>ships 2x faster with AI</span><span>·</span>
+      <span>exp += 1</span><span>·</span>
       <span>EdTech · FinTech · PropTech · AI</span>
     </div>
   </div>
