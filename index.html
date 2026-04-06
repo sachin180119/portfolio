@@ -8,156 +8,97 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --bg:#0a0a0a;
-  --bg2:#111;
-  --card:#161616;
-  --card2:#1c1c1c;
-  --border:#2a2a2a;
-  --border2:#222;
-  --white:#f0f0f0;
-  --text:#d4d4d4;
-  --text2:#b0b0b0;
-  --text3:#888;
-  --green:#4ec9b0;
-  --yellow:#dcdcaa;
-  --blue:#569cd6;
-  --lightblue:#9cdcfe;
-  --orange:#ce9178;
-  --purple:#c586c0;
-  --red:#f44747;
-  --comment:#6a9955;
-  --keyword:#569cd6;
-  --string:#ce9178;
-  --func:#dcdcaa;
-  --num:#b5cea8;
-  --type:#4ec9b0;
-  --radius:12px;
-  --radius2:8px;
-  --mono:'Source Code Pro',monospace;
-  --sans:'Outfit',sans-serif;
+  --bg:#0a0a0a;--bg2:#111;--card:#161616;--card2:#1c1c1c;
+  --border:#2a2a2a;--border2:#222;--white:#f0f0f0;--text:#d4d4d4;
+  --text2:#b0b0b0;--text3:#888;--green:#4ec9b0;--yellow:#dcdcaa;
+  --blue:#569cd6;--lightblue:#9cdcfe;--orange:#ce9178;--purple:#c586c0;
+  --red:#f44747;--comment:#6a9955;--keyword:#569cd6;--string:#ce9178;
+  --func:#dcdcaa;--num:#b5cea8;--type:#4ec9b0;
+  --radius:12px;--radius2:8px;--mono:'Source Code Pro',monospace;--sans:'Outfit',sans-serif;
 }
 html{scroll-behavior:smooth;overflow-x:hidden;width:100%;}
 body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.55;overflow-x:hidden;width:100%;max-width:100vw;}
 ::-webkit-scrollbar{width:5px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
-
-/* CANVAS */
 #matrixCanvas{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;opacity:.03;}
 
 /* TOPBAR */
-.topbar{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:12px 32px;
-  background:rgba(10,10,10,0.9);backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border2);
-}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:10px 28px;background:rgba(10,10,10,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border2);}
 .topbar-left{font-family:var(--mono);font-size:13px;color:var(--comment);}
 .topbar-left .kw{color:var(--keyword);}
 .topbar-left .fn{color:var(--func);}
 .topbar-nav{display:flex;gap:4px;align-items:center;}
-.topbar-nav a{
-  font-family:var(--mono);font-size:12px;color:var(--text3);
-  text-decoration:none;padding:5px 12px;border-radius:6px;
-  transition:all .25s;position:relative;
-}
+.topbar-nav a{font-family:var(--mono);font-size:12px;color:var(--text3);text-decoration:none;padding:5px 10px;border-radius:6px;transition:all .25s;}
 .topbar-nav a:hover{color:var(--white);background:var(--card);}
-.topbar-right{display:flex;align-items:center;gap:16px;}
-.topbar-status{
-  display:flex;align-items:center;gap:6px;
-  font-family:var(--mono);font-size:11px;color:var(--green);
-  background:rgba(78,201,176,.08);padding:4px 12px;border-radius:20px;
+.topbar-right{display:flex;align-items:center;gap:14px;}
+.topbar-status{font-family:var(--mono);font-size:11px;color:var(--text3);}
+.dl-btn{background:var(--green);color:var(--bg);padding:5px 14px;border-radius:6px;font-weight:600;font-family:var(--mono);font-size:12px;text-decoration:none;transition:all .25s;}
+.dl-btn:hover{background:#5ee0c8;transform:translateY(-1px);}
+
+/* FLOATING CTA */
+.floating-cta{position:fixed;bottom:24px;right:24px;z-index:99;display:flex;gap:8px;}
+.floating-cta a{
+  display:flex;align-items:center;gap:6px;padding:12px 20px;
+  background:var(--green);color:var(--bg);border-radius:28px;
+  font-family:var(--mono);font-size:13px;font-weight:600;
+  text-decoration:none;transition:all .3s;
+  box-shadow:0 4px 24px rgba(78,201,176,.3);
 }
-.topbar-status .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
-.topbar-loc{font-family:var(--mono);font-size:11px;color:var(--text3);}
+.floating-cta a:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(78,201,176,.4);}
 
 /* LAYOUT */
-.layout{display:flex;min-height:100vh;padding-top:48px;position:relative;z-index:1;width:100%;max-width:100%;}
+.layout{display:block;padding-top:48px;width:100%;}
+.sidebar{display:block;width:100%;padding:16px;border-bottom:1px solid var(--border2);background:var(--bg);}
+.sidebar::-webkit-scrollbar{width:0;}
+.main{display:block;padding:24px 16px;width:100%;box-sizing:border-box;}
+@media(min-width:861px){
+  .sidebar{position:fixed;top:48px;left:0;width:320px;height:calc(100vh - 48px);overflow-y:auto;border-right:1px solid var(--border2);border-bottom:none;padding:20px 18px;display:flex;flex-direction:column;gap:14px;z-index:10;}
+  .main{margin-left:320px;padding:32px 44px;max-width:940px;}
+}
 
 /* SIDEBAR */
-.sidebar{
-  position:fixed;top:48px;left:0;width:330px;height:calc(100vh - 48px);
-  overflow-y:auto;border-right:1px solid var(--border2);
-  padding:24px 20px;display:flex;flex-direction:column;gap:16px;
-  background:var(--bg);z-index:10;
-}
-.sidebar::-webkit-scrollbar{width:0;}
-.sidebar-profile{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:16px;padding:20px;text-align:center;
-}
-.sidebar-avatar{
-  width:calc(100% + 40px);margin-left:-20px;margin-top:-20px;margin-bottom:16px;
-  aspect-ratio:1/1;border-radius:12px;overflow:hidden;background:var(--border);
-}
+.sidebar-profile{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;text-align:center;}
+.sidebar-avatar{width:calc(100% + 36px);margin-left:-18px;margin-top:-18px;margin-bottom:14px;aspect-ratio:1/1;border-radius:12px;overflow:hidden;background:var(--border);}
 .sidebar-avatar img{width:100%;height:100%;object-fit:cover;object-position:center 20%;}
 .sidebar-avatar .fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;color:var(--text3);background:var(--card2);}
-.sidebar-name{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--white);margin-bottom:4px;}
-.sidebar-role{font-family:var(--mono);font-size:12px;color:var(--type);margin-bottom:14px;}
-.sidebar-bio{font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:18px;}
-.sidebar-info{display:flex;flex-direction:column;gap:8px;text-align:left;}
-.sidebar-info-item{
-  display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text2);
-  padding:6px 10px;border-radius:6px;transition:all .25s;cursor:default;
-}
+.sidebar-name{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--white);margin-bottom:2px;}
+.sidebar-role{font-family:var(--mono);font-size:12px;color:var(--type);margin-bottom:12px;}
+.sidebar-bio{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px;}
+.sidebar-info{display:flex;flex-direction:column;gap:6px;text-align:left;}
+.sidebar-info-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);padding:4px 6px;border-radius:6px;transition:all .25s;cursor:default;}
 .sidebar-info-item:hover{background:var(--card2);color:var(--white);}
-.sidebar-info-item svg{width:15px;height:15px;flex-shrink:0;color:var(--blue);opacity:.7;}
-.sidebar-btns{display:flex;flex-direction:column;gap:8px;margin-top:6px;}
-.btn-primary{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  padding:11px 20px;background:var(--white);color:var(--bg);
-  border:none;border-radius:var(--radius2);font-family:var(--mono);font-size:13px;font-weight:600;
-  cursor:pointer;text-decoration:none;transition:all .25s;
-}
-.btn-primary:hover{background:var(--green);color:var(--bg);transform:translateY(-1px);box-shadow:0 4px 16px rgba(78,201,176,.2);}
-.btn-secondary{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  padding:11px 20px;background:transparent;color:var(--text);
-  border:1px solid var(--border);border-radius:var(--radius2);
-  font-family:var(--mono);font-size:13px;font-weight:500;
-  cursor:pointer;text-decoration:none;transition:all .25s;
-}
+.sidebar-info-item svg{width:14px;height:14px;flex-shrink:0;color:var(--blue);opacity:.7;}
+.sidebar-btns{display:flex;flex-direction:column;gap:6px;margin-top:6px;}
+.btn-primary{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;background:var(--white);color:var(--bg);border:none;border-radius:var(--radius2);font-family:var(--mono);font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .25s;}
+.btn-primary:hover{background:var(--green);transform:translateY(-1px);box-shadow:0 4px 16px rgba(78,201,176,.2);}
+.btn-secondary{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;background:transparent;color:var(--text);border:1px solid var(--border);border-radius:var(--radius2);font-family:var(--mono);font-size:12px;font-weight:500;cursor:pointer;text-decoration:none;transition:all .25s;}
 .btn-secondary:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-1px);}
 
-/* MAIN */
-.main{padding:36px 44px;max-width:960px;margin-left:330px;}
-
 /* HERO */
-.hero-section{margin-bottom:56px;}
-.hero-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:5px 14px;background:var(--card);border:1px solid var(--border);
-  border-radius:16px;font-family:var(--mono);font-size:11px;color:var(--comment);margin-bottom:20px;
-}
+.hero-section{margin-bottom:40px;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;background:var(--card);border:1px solid var(--border);border-radius:16px;font-family:var(--mono);font-size:11px;color:var(--comment);margin-bottom:18px;}
 .hero-badge .kw{color:var(--keyword);}
 .hero-badge .cls{color:var(--type);}
-.hero-title{
-  font-family:var(--mono);
-  font-size:clamp(32px,4vw,48px);font-weight:700;
-  line-height:1.15;color:var(--white);margin-bottom:20px;
-}
+.hero-title{font-family:var(--mono);font-size:clamp(28px,3.8vw,44px);font-weight:700;line-height:1.15;color:var(--white);margin-bottom:18px;}
 .hero-desc{font-size:16px;color:var(--text2);max-width:560px;line-height:1.75;}
 
-/* TERMINAL WINDOW */
-.terminal{
-  background:#1e1e1e;border:1px solid var(--border);border-radius:var(--radius);
-  overflow:hidden;margin:40px 0;
-}
-.terminal-bar{
-  display:flex;align-items:center;gap:8px;padding:10px 16px;
-  background:#2d2d2d;border-bottom:1px solid var(--border);
-}
+/* IMPACT STATS */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:32px 0;padding:24px 0;border-top:1px solid var(--border2);border-bottom:1px solid var(--border2);}
+.stat-card{text-align:center;padding:12px 8px;border-radius:var(--radius);transition:all .25s;cursor:default;}
+.stat-card:hover{background:var(--card);}
+.stat-num{font-family:var(--mono);font-size:28px;font-weight:800;color:var(--green);margin-bottom:4px;}
+.stat-label{font-size:12px;color:var(--text3);line-height:1.4;}
+
+/* TERMINAL */
+.terminal{background:#1e1e1e;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:40px;}
+.terminal-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#2d2d2d;border-bottom:1px solid var(--border);}
 .terminal-dot{width:12px;height:12px;border-radius:50%;}
-.terminal-dot.r{background:#ff5f57;}
-.terminal-dot.y{background:#ffbd2e;}
-.terminal-dot.g{background:#28c840;}
+.terminal-dot.r{background:#ff5f57;}.terminal-dot.y{background:#ffbd2e;}.terminal-dot.g{background:#28c840;}
 .terminal-title{font-family:var(--mono);font-size:12px;color:var(--text3);margin-left:auto;margin-right:auto;}
-.terminal-body{padding:20px 24px;font-family:var(--mono);font-size:13px;line-height:1.8;}
+.terminal-body{padding:18px 22px;font-family:var(--mono);font-size:13px;line-height:1.8;}
 .terminal-body .prompt{color:var(--green);}
 .terminal-body .cmd{color:var(--white);}
-.terminal-body .output{color:var(--text2);}
 .terminal-body .kw{color:var(--keyword);}
 .terminal-body .str{color:var(--string);}
 .terminal-body .fn{color:var(--func);}
@@ -167,768 +108,457 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
 .terminal-body .cursor{display:inline-block;width:8px;height:15px;background:var(--white);animation:blink .8s step-end infinite;vertical-align:text-bottom;margin-left:2px;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
 
-/* SEC HEADER */
-.sec-header{margin-bottom:36px;}
-.sec-title{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px;}
+/* SECTIONS */
+.sec-header{margin-bottom:28px;}
+.sec-title{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--white);margin-bottom:6px;}
 .sec-title .comment{color:var(--comment);font-size:13px;font-weight:400;display:block;margin-bottom:4px;}
-.sec-desc{font-size:15px;color:var(--text2);max-width:540px;line-height:1.7;}
+.sec-desc{font-size:15px;color:var(--text2);max-width:520px;line-height:1.7;}
 
-/* SINCE BANNER */
-.since-banner{
-  padding:14px 0;margin:40px 0;
-  border-top:1px solid var(--border2);border-bottom:1px solid var(--border2);
-  overflow:hidden;
-}
-.since-track{display:flex;gap:16px;animation:marquee 22s linear infinite;white-space:nowrap;}
-.since-track span{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--text3);}
-.since-track .kw{color:var(--keyword);}
-.since-track .num{color:var(--num);}
-.since-track .op{color:var(--text3);}
-@keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
-
-/* ABOUT */
-.about-section{margin-bottom:56px;}
-.about-text{font-size:15px;color:var(--text2);line-height:1.8;margin-bottom:14px;}
-.ai-callout{
-  display:flex;gap:16px;align-items:flex-start;
-  background:rgba(78,201,176,.06);border:1px solid rgba(78,201,176,.2);
-  border-left:3px solid var(--green);
-  border-radius:0 var(--radius) var(--radius) 0;
-  padding:20px 24px;margin:24px 0;
-  transition:all .3s;
-}
+/* AI CALLOUT */
+.ai-callout{display:flex;gap:14px;align-items:flex-start;background:rgba(78,201,176,.06);border:1px solid rgba(78,201,176,.2);border-left:3px solid var(--green);border-radius:0 var(--radius) var(--radius) 0;padding:18px 20px;margin:28px 0;transition:all .3s;}
 .ai-callout:hover{border-color:var(--green);background:rgba(78,201,176,.1);}
-.ai-callout-icon{font-size:24px;flex-shrink:0;margin-top:2px;}
-.ai-callout-title{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--green);margin-bottom:6px;}
-.ai-callout-text{font-size:14px;color:var(--text2);line-height:1.7;}
-
-/* INDUSTRY CARDS */
-.industry-section{margin-bottom:56px;}
-.industry-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.industry-card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--radius);padding:22px;transition:all .25s;position:relative;overflow:hidden;cursor:default;
-}
-.industry-card:hover{border-color:var(--green);transform:translateY(-2px);}
-.industry-card .ind-label{font-family:var(--mono);font-size:10px;color:var(--comment);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;}
-.industry-card .ind-name{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--white);margin-bottom:8px;}
-.industry-card .ind-desc{font-size:13px;color:var(--text2);line-height:1.6;}
-.industry-card .ind-stats{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
-.ind-stat{
-  padding:3px 10px;background:var(--bg);border:1px solid var(--border2);
-  border-radius:12px;font-family:var(--mono);font-size:10px;color:var(--green);
-  transition:all .25s;cursor:default;
-}
-.ind-stat:hover{border-color:var(--green);background:rgba(78,201,176,.06);}
+.ai-callout-icon{font-size:22px;flex-shrink:0;margin-top:2px;}
+.ai-callout-title{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--green);margin-bottom:4px;}
+.ai-callout-text{font-size:13px;color:var(--text2);line-height:1.7;}
 
 /* EXPERIENCE */
-.exp-section{margin-bottom:56px;}
-.timeline-item{
-  display:grid;grid-template-columns:150px 1fr;gap:24px;
-  padding:24px 0;border-bottom:1px solid var(--border2);
-}
-.timeline-item:first-child{border-top:1px solid var(--border2);}
-.timeline-date{font-family:var(--mono);font-size:13px;color:var(--comment);padding-top:2px;}
-.timeline-logo{margin-top:10px;display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap;}
-.timeline-logo a{
-  display:flex;align-items:center;justify-content:center;
-  height:32px;padding:4px 12px;background:#fff;border-radius:6px;
-  text-decoration:none;transition:all .25s;border:1px solid #eee;
-  font-family:var(--mono);font-size:11px;color:#333;font-weight:600;
-  gap:6px;
-}
-.timeline-logo a:hover{border-color:var(--green);transform:translateY(-1px);box-shadow:0 2px 8px rgba(78,201,176,.15);}
-.timeline-logo a img{height:16px;width:auto;display:block;object-fit:contain;}
-.timeline-logo a img[src=""]{display:none;}
-.timeline-role{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--white);margin-bottom:4px;}
-.timeline-company{font-size:14px;color:var(--text2);margin-bottom:10px;}
-.timeline-desc{font-size:14px;color:var(--text2);line-height:1.75;}
-.timeline-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
-.timeline-tags span{
-  padding:4px 12px;background:var(--bg);border:1px solid var(--border2);
-  border-radius:12px;font-family:var(--mono);font-size:10px;color:var(--green);
-  transition:all .25s;cursor:default;
-}
-.timeline-tags span:hover{border-color:var(--blue);color:var(--blue);background:rgba(86,156,214,.06);}
+.exp-section{margin-bottom:48px;}
+.exp-item{padding:20px 0;border-bottom:1px solid var(--border2);}
+.exp-item:first-child{border-top:1px solid var(--border2);}
+.exp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:6px;flex-wrap:wrap;}
+.exp-role{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--white);}
+.exp-date{font-family:var(--mono);font-size:12px;color:var(--comment);white-space:nowrap;}
+.exp-company{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;}
+.exp-company-name{font-size:14px;color:var(--text2);}
+.exp-logo{display:inline-flex;align-items:center;gap:4px;height:24px;padding:2px 10px;background:#fff;border-radius:4px;text-decoration:none;transition:all .25s;font-family:var(--mono);font-size:10px;color:#333;font-weight:600;}
+.exp-logo:hover{border-color:var(--green);transform:translateY(-1px);box-shadow:0 2px 8px rgba(78,201,176,.15);}
+.exp-logo img{height:14px;width:auto;object-fit:contain;}
+.exp-desc{font-size:14px;color:var(--text2);line-height:1.7;max-width:600px;}
+.exp-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.exp-tags span{padding:4px 10px;background:var(--bg);border:1px solid var(--border2);border-radius:12px;font-family:var(--mono);font-size:11px;color:var(--green);transition:all .25s;cursor:default;}
+.exp-tags span:hover{border-color:var(--blue);color:var(--blue);background:rgba(86,156,214,.06);}
+.exp-industry{font-family:var(--mono);font-size:11px;color:var(--comment);margin-bottom:8px;}
 
-/* WHAT I DO */
-.services-section{margin-bottom:56px;}
-.service-cards{display:flex;flex-direction:column;gap:12px;}
-.service-card{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;
-  transition:all .25s;cursor:default;
-}
-.service-card:hover{border-color:var(--blue);}
-.service-card h3{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--white);margin-bottom:14px;}
-.service-card h3 .kw{color:var(--keyword);font-weight:400;}
-.service-card h3 .fn{color:var(--func);}
-.service-list{display:flex;flex-wrap:wrap;gap:7px;list-style:none;}
-.service-list li{
-  font-family:var(--mono);font-size:12px;color:var(--text2);padding:5px 14px;
-  background:var(--bg);border:1px solid var(--border2);border-radius:16px;
-  transition:all .25s;cursor:default;
-}
-.service-list li:hover{border-color:var(--green);color:var(--green);background:rgba(78,201,176,.05);}
+/* PROBLEMS I SOLVE — replaces services */
+.solve-section{margin-bottom:48px;}
+.solve-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.solve-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:all .25s;cursor:default;}
+.solve-card:hover{border-color:var(--green);transform:translateY(-2px);}
+.solve-card .solve-title{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--white);margin-bottom:8px;}
+.solve-card .solve-desc{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:10px;}
+.solve-card .solve-tools{font-family:var(--mono);font-size:11px;color:var(--comment);line-height:1.6;}
 
-/* TECH STACK - TABLE LAYOUT */
-.stack-section{margin-bottom:56px;}
-.stack-terminal{
-  background:#1e1e1e;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
-}
-.stack-terminal-bar{
-  display:flex;align-items:center;gap:8px;padding:10px 16px;
-  background:#2d2d2d;border-bottom:1px solid var(--border);
-}
-.stack-terminal-bar .terminal-dot{width:12px;height:12px;border-radius:50%;}
-.stack-terminal-bar .r{background:#ff5f57;}
-.stack-terminal-bar .y{background:#ffbd2e;}
-.stack-terminal-bar .g{background:#28c840;}
+/* TECH STACK TABLE */
+.stack-section{margin-bottom:48px;}
+.stack-terminal{background:#1e1e1e;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.stack-terminal-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#2d2d2d;border-bottom:1px solid var(--border);}
 .stack-terminal-bar .title{font-family:var(--mono);font-size:12px;color:var(--text3);margin-left:auto;margin-right:auto;}
 .stack-table{width:100%;border-collapse:collapse;}
-.stack-table thead th{
-  font-family:var(--mono);font-size:11px;color:var(--comment);
-  text-align:left;padding:12px 20px;border-bottom:1px solid var(--border);
-  text-transform:uppercase;letter-spacing:1px;font-weight:500;
-}
-.stack-table tbody tr{
-  border-bottom:1px solid rgba(42,42,42,.5);transition:all .25s;cursor:default;
-}
+.stack-table thead th{font-family:var(--mono);font-size:10px;color:var(--comment);text-align:left;padding:10px 18px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:1px;font-weight:500;}
+.stack-table tbody tr{border-bottom:1px solid rgba(42,42,42,.5);transition:all .25s;cursor:default;}
 .stack-table tbody tr:hover{background:rgba(78,201,176,.04);}
 .stack-table tbody tr:hover .st-name{color:var(--green);}
-.stack-table tbody tr:hover .st-bar-fill{filter:brightness(1.3);}
-.stack-table td{padding:10px 20px;font-family:var(--mono);font-size:13px;}
-.st-icon{font-size:18px;}
-.st-name{color:var(--text);font-weight:500;transition:color .25s;}
-.st-name span{color:var(--comment);font-size:11px;font-weight:400;margin-left:6px;}
+.stack-table td{padding:9px 18px;font-family:var(--mono);font-size:13px;}
+.st-icon{font-size:16px;}.st-name{color:var(--text);font-weight:500;transition:color .25s;}
+.st-name span{color:var(--comment);font-size:10px;font-weight:400;margin-left:4px;}
 .st-cat{color:var(--text3);font-size:11px;}
-.st-bar{width:120px;}
-.st-bar-inner{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
-.st-bar-fill{height:100%;border-radius:2px;transition:width 1.2s ease,filter .25s;}
-.st-pct{color:var(--text3);font-size:12px;font-weight:600;text-align:right;width:40px;}
+.st-bar{width:100px;}.st-bar-inner{height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.st-bar-fill{height:100%;border-radius:2px;transition:width 1.2s ease;}
+.st-pct{color:var(--text3);font-size:11px;font-weight:600;text-align:right;width:36px;}
 .scramble-text{transition:color .25s;}
 
 /* EDUCATION */
-.edu-section{margin-bottom:56px;}
-.edu-card{
-  background:linear-gradient(135deg,rgba(78,201,176,.06),rgba(86,156,214,.06));
-  border:1px solid var(--green);border-radius:var(--radius);padding:28px;
-  position:relative;overflow:hidden;transition:all .3s;
-}
+.edu-section{margin-bottom:48px;}
+.edu-card{background:linear-gradient(135deg,rgba(78,201,176,.06),rgba(86,156,214,.06));border:1px solid var(--green);border-radius:var(--radius);padding:24px;position:relative;overflow:hidden;transition:all .3s;}
 .edu-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(78,201,176,.1);}
-.edu-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,var(--green),var(--blue));
-}
-.edu-card-inner{display:flex;gap:24px;align-items:center;}
-.edu-logo{
-  width:80px;height:80px;flex-shrink:0;border-radius:12px;overflow:hidden;
-  background:#fff;padding:6px;display:flex;align-items:center;justify-content:center;
-}
+.edu-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),var(--blue));}
+.edu-card-inner{display:flex;gap:20px;align-items:center;}
+.edu-logo{width:68px;height:68px;flex-shrink:0;border-radius:10px;overflow:hidden;background:#fff;padding:6px;display:flex;align-items:center;justify-content:center;}
 .edu-logo img{width:100%;height:100%;object-fit:contain;}
 .edu-details{flex:1;}
-.edu-inst{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--white);margin-bottom:4px;}
-.edu-inst-full{font-size:13px;color:var(--green);margin-bottom:8px;font-weight:500;}
-.edu-degree{font-size:14px;color:var(--text);margin-bottom:4px;}
-.edu-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
-.edu-tag{
-  font-family:var(--mono);font-size:10px;color:var(--green);
-  padding:4px 10px;background:rgba(78,201,176,.08);
-  border:1px solid rgba(78,201,176,.2);border-radius:12px;
-  transition:all .25s;cursor:default;
-}
+.edu-inst{font-family:var(--mono);font-size:17px;font-weight:700;color:var(--white);margin-bottom:2px;}
+.edu-inst-full{font-size:13px;color:var(--green);margin-bottom:6px;font-weight:500;}
+.edu-degree{font-size:14px;color:var(--text);margin-bottom:8px;}
+.edu-meta{display:flex;flex-wrap:wrap;gap:6px;}
+.edu-tag{font-family:var(--mono);font-size:11px;color:var(--green);padding:3px 10px;background:rgba(78,201,176,.08);border:1px solid rgba(78,201,176,.2);border-radius:10px;transition:all .25s;cursor:default;}
 .edu-tag:hover{background:rgba(78,201,176,.15);border-color:var(--green);}
-.edu-highlight{
-  font-family:var(--mono);font-size:12px;color:var(--text3);
-  margin-top:12px;line-height:1.7;
-}
-.edu-school{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-  padding:20px 24px;margin-top:12px;transition:all .25s;cursor:default;
-}
+.edu-school{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-top:10px;transition:all .25s;cursor:default;}
 .edu-school:hover{border-color:var(--blue);}
 .edu-school-name{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px;}
 .edu-school-detail{font-size:13px;color:var(--text3);}
 
-/* STARTUP JOURNEY */
-.journey-section{margin-bottom:56px;}
-.journey-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-.journey-card{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--radius);padding:24px 18px;text-align:center;
-  transition:all .3s;cursor:default;
-}
-.journey-card:hover{border-color:var(--green);transform:translateY(-3px);}
-.journey-phase{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--green);margin-bottom:6px;}
-.journey-title{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px;}
-.journey-desc{font-size:13px;color:var(--text2);line-height:1.6;}
-
 /* CONTACT */
-.contact-section{padding:44px 0;margin-top:16px;border-top:1px solid var(--border2);}
-.contact-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
-.contact-chip{
-  display:flex;align-items:center;gap:8px;padding:10px 18px;
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);
-  font-family:var(--mono);font-size:13px;color:var(--text2);text-decoration:none;
-  transition:all .25s;
-}
+.contact-section{padding:36px 0;border-top:1px solid var(--border2);}
+.contact-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;}
+.contact-chip{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius2);font-family:var(--mono);font-size:13px;color:var(--text2);text-decoration:none;transition:all .25s;}
 .contact-chip:hover{border-color:var(--green);color:var(--green);background:rgba(78,201,176,.04);transform:translateY(-1px);}
 
 /* FOOTER */
 .footer-marquee{padding:14px 0;margin-top:32px;border-top:1px solid var(--border2);overflow:hidden;}
 .footer-track{display:flex;gap:40px;animation:marquee 30s linear infinite;white-space:nowrap;}
-.footer-track span{font-family:var(--mono);font-size:11px;color:var(--text3);}
+.footer-track span{font-family:var(--mono);font-size:12px;color:var(--text3);}
+@keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 
 /* RESPONSIVE */
-@media(max-width:860px){
-  .layout{display:flex;flex-direction:column;padding-top:48px;}
-  .sidebar{
-    position:relative !important;top:0 !important;left:0 !important;
-    width:100% !important;height:auto !important;
-    border-right:none;border-bottom:1px solid var(--border2);
-    padding:16px;max-width:100%;overflow:hidden;z-index:1;
-  }
-  .sidebar-profile{padding:16px;width:100%;max-width:100%;overflow:hidden;}
-  .sidebar-avatar{
-    width:calc(100% + 32px);margin-left:-16px;margin-top:-16px;
-    aspect-ratio:1/1;border-radius:12px 12px 0 0;
-  }
-  .sidebar-name{font-size:18px;}
-  .sidebar-role{font-size:11px;}
-  .sidebar-bio{font-size:13px;line-height:1.5;}
-  .sidebar-info{gap:6px;}
-  .sidebar-info-item{font-size:12px;gap:8px;padding:4px 6px;word-break:break-all;}
-  .sidebar-btns{flex-direction:column;gap:6px;width:100%;}
-  .sidebar-btns a{width:100%;padding:10px 16px;font-size:12px;}
-
-  .main{padding:20px 16px;width:100%;max-width:100%;overflow-x:hidden;}
-
-  /* Hero */
-  .hero-section{margin-bottom:36px;}
-  .hero-title{font-size:26px;letter-spacing:-0.5px;line-height:1.2;}
-  .hero-desc{font-size:14px;line-height:1.65;}
-  .hero-badge{font-size:10px;padding:4px 10px;}
-
-  /* Sections */
-  .sec-header{margin-bottom:24px;}
-  .sec-title{font-size:20px;line-height:1.3;}
-  .sec-title .comment{font-size:11px;}
-  .sec-desc{font-size:13px;}
-
-  /* Terminal */
-  .terminal{margin:24px 0;}
-  .terminal-body{
-    padding:12px 14px;font-size:11px;line-height:1.6;
-    overflow-x:auto;white-space:pre-wrap;word-break:break-word;
-  }
-  .terminal-title{font-size:10px;}
-
-  /* About */
-  .about-section{margin-bottom:40px;}
-  .about-text{font-size:13px;line-height:1.7;}
-
-  /* Since */
-  .since-banner{margin:20px 0;padding:10px 0;}
-  .since-track span{font-size:11px;}
-
-  /* Industry */
-  .industry-section{margin-bottom:40px;}
-  .industry-grid{grid-template-columns:1fr;gap:10px;}
-  .industry-card{padding:16px;}
-  .industry-card .ind-name{font-size:15px;}
-  .industry-card .ind-desc{font-size:12px;}
-  .industry-card .ind-stats{gap:4px;}
-  .ind-stat{font-size:9px;padding:3px 8px;}
-
-  /* Experience */
-  .exp-section{margin-bottom:40px;}
-  .timeline-item{grid-template-columns:1fr;gap:6px;padding:18px 0;}
-  .timeline-date{font-size:11px;margin-bottom:0;}
-  .timeline-logo{margin-top:4px;margin-bottom:6px;}
-  .timeline-logo img{height:18px;padding:3px 6px;}
-  .timeline-role{font-size:15px;}
-  .timeline-company{font-size:12px;margin-bottom:8px;}
-  .timeline-desc{font-size:12px;line-height:1.65;}
-  .timeline-tags{gap:4px;margin-top:8px;}
-  .timeline-tags span{font-size:9px;padding:3px 8px;}
-
-  /* Services */
-  .services-section{margin-bottom:40px;}
-  .service-cards{gap:10px;}
-  .service-card{padding:16px;}
-  .service-card h3{font-size:14px;margin-bottom:10px;}
-  .service-card h3 .kw,.service-card h3 .fn{font-size:13px;}
-  .service-list{gap:5px;}
-  .service-list li{font-size:11px;padding:4px 10px;}
-
-  /* Tech stack */
-  .stack-section{margin-bottom:40px;}
-  .stack-terminal-bar .title{font-size:10px;}
-  .stack-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
-  .stack-table thead{display:none;}
-  .stack-table tbody{display:block;width:100%;}
-  .stack-table tbody tr{
-    display:grid;grid-template-columns:28px 1fr 50px;
-    align-items:center;gap:4px;padding:8px 12px;
-  }
-  .stack-table td{padding:0;font-size:12px;}
-  .st-icon{font-size:16px;}
-  .st-name{font-size:12px;}
-  .st-name span{display:none;}
-  .st-cat{display:none;}
-  .st-bar{display:none;}
-  .st-pct{font-size:11px;text-align:right;}
-
-  /* Education */
-  .edu-section{margin-bottom:40px;}
-  .edu-card{padding:16px;}
-  .edu-card-inner{flex-direction:column;gap:14px;text-align:center;}
-  .edu-logo{width:60px;height:60px;margin:0 auto;}
-  .edu-inst{font-size:16px;}
-  .edu-inst-full{font-size:11px;}
-  .edu-degree{font-size:13px;}
-  .edu-meta{justify-content:center;gap:4px;}
-  .edu-tag{font-size:9px;padding:3px 8px;}
-  .edu-highlight{font-size:11px;text-align:center;}
-  .edu-school{padding:12px 14px;}
-  .edu-school-name{font-size:13px;}
-  .edu-school-detail{font-size:11px;}
-
-  /* Journey */
-  .journey-section{margin-bottom:40px;}
-  .journey-cards{grid-template-columns:1fr;gap:10px;}
-  .journey-card{padding:20px 16px;}
-  .journey-phase{font-size:22px;}
-  .journey-title{font-size:13px;}
-  .journey-desc{font-size:12px;}
-
-  /* Contact */
-  .contact-section{padding:32px 0;}
-  .contact-grid{flex-direction:column;gap:8px;}
-  .contact-chip{font-size:12px;padding:10px 14px;word-break:break-all;}
-
-  /* Footer */
-  .footer-marquee{margin-top:20px;}
-  .footer-track span{font-size:10px;}
-
-  /* Topbar */
-  .topbar{padding:10px 14px;}
+@media screen and (max-width:860px){
+  .topbar{padding:8px 12px;}
   .topbar-left{font-size:11px;}
-  .topbar-nav{display:none;}
-  .topbar-right{gap:10px;}
-  .topbar-status{font-size:10px;padding:3px 8px;}
-  .topbar-status .dot{width:5px;height:5px;}
-  .topbar-loc{font-size:10px;}
+  .topbar-nav{display:none !important;}
+  .topbar-status{font-size:14px !important;}
+  .dl-btn{font-size:14px !important;padding:6px 12px;}
+  .floating-cta a{padding:10px 16px;font-size:14px !important;border-radius:24px;}
+  .sidebar-name{font-size:20px !important;}
+  .sidebar-role{font-size:14px !important;}
+  .sidebar-bio{font-size:14px !important;line-height:1.6;}
+  .sidebar-info-item{font-size:14px !important;word-break:break-all;}
+  .sidebar-btns a{font-size:14px !important;padding:10px 14px;}
+  .sidebar-avatar{width:calc(100% + 32px);margin-left:-16px;margin-top:-16px;aspect-ratio:1/1;border-radius:12px 12px 0 0;}
+  .hero-title{font-size:26px !important;line-height:1.2;word-wrap:break-word !important;overflow-wrap:break-word !important;}
+  .hero-desc{font-size:14px !important;line-height:1.75;}
+  .hero-badge{font-size:14px !important;}
+  .hero-badge *{font-size:14px !important;}
+  .stats-bar{grid-template-columns:repeat(2,1fr);gap:8px;padding:16px 0;margin:24px 0;}
+  .stat-num{font-size:22px;}
+  .stat-label{font-size:14px !important;}
+  .terminal{margin-bottom:28px;}
+  .terminal-body{padding:14px !important;font-size:14px !important;line-height:1.7;white-space:pre-wrap !important;word-break:break-word !important;}
+  .terminal-body *{font-size:14px !important;}
+  .terminal-title{font-size:14px !important;}
+  .sec-title{font-size:20px !important;line-height:1.3;}
+  .sec-title .comment{font-size:14px !important;}
+  .sec-desc{font-size:14px !important;}
+  .ai-callout{padding:14px !important;gap:10px;margin:20px 0;}
+  .ai-callout-icon{font-size:18px !important;}
+  .ai-callout-title{font-size:14px !important;}
+  .ai-callout-text{font-size:14px !important;}
+  .exp-item{padding:16px 0;}
+  .exp-role{font-size:16px !important;}
+  .exp-date{font-size:14px !important;}
+  .exp-company-name{font-size:14px !important;}
+  .exp-desc{font-size:14px !important;}
+  .exp-tags span{font-size:14px !important;padding:4px 10px;}
+  .exp-industry{font-size:14px !important;}
+  .exp-logo{font-size:14px !important;height:22px;padding:2px 8px;}
+  .exp-logo img{height:12px !important;}
+  .solve-grid{grid-template-columns:1fr !important;}
+  .solve-card .solve-title{font-size:14px !important;}
+  .solve-card .solve-desc{font-size:14px !important;}
+  .solve-card .solve-tools{font-size:14px !important;}
+  .stack-table thead{display:none !important;}
+  .stack-table tbody{display:block !important;width:100%;}
+  .stack-table tbody tr{display:grid !important;grid-template-columns:28px 1fr 40px;align-items:center;gap:6px;padding:10px 14px;}
+  .stack-table td{padding:0 !important;}
+  .st-icon{font-size:18px !important;}
+  .st-name{font-size:14px !important;}
+  .st-name span{display:none !important;}
+  .st-cat{display:none !important;}
+  .st-bar{display:none !important;}
+  .st-pct{font-size:14px !important;}
+  .stack-terminal-bar .title{font-size:14px !important;}
+  .edu-card{padding:16px;}
+  .edu-card-inner{flex-direction:column;gap:12px;text-align:center;}
+  .edu-logo{width:60px;height:60px;margin:0 auto;}
+  .edu-inst{font-size:16px !important;}
+  .edu-inst-full{font-size:14px !important;}
+  .edu-degree{font-size:14px !important;}
+  .edu-meta{justify-content:center;}
+  .edu-tag{font-size:14px !important;}
+  .edu-school-name{font-size:14px !important;}
+  .edu-school-detail{font-size:14px !important;}
+  .contact-chip{font-size:14px !important;word-break:break-all;}
+  .footer-track span{font-size:14px !important;}
+  .about-text{font-size:14px !important;}
 }
-
-@media(max-width:380px){
-  .main{padding:16px 12px;}
-  .sidebar{padding:12px;}
-  .sidebar-profile{padding:12px;}
-  .sidebar-avatar{
-    width:calc(100% + 24px);margin-left:-12px;margin-top:-12px;
-    aspect-ratio:1/1;
-  }
-  .sidebar-name{font-size:16px;}
-  .sidebar-bio{font-size:12px;}
-  .sidebar-info-item{font-size:11px;}
-  .hero-title{font-size:22px;}
-  .hero-desc{font-size:13px;}
-  .sec-title{font-size:18px;}
-  .terminal-body{font-size:10px;padding:10px 12px;}
-  .timeline-role{font-size:14px;}
-  .timeline-desc{font-size:11px;}
-  .service-list li{font-size:10px;padding:3px 8px;}
-  .edu-inst{font-size:14px;}
-  .contact-chip{font-size:11px;padding:8px 12px;}
+@media screen and (max-width:380px){
+  .sidebar{padding:12px !important;}
+  .sidebar-avatar{width:calc(100% + 24px);margin-left:-12px;margin-top:-12px;aspect-ratio:1/1;}
+  .main{padding:16px 12px !important;}
+  .hero-title{font-size:22px !important;}
+  .stat-num{font-size:20px;}
 }
 </style>
 </head>
 <body>
-
 <canvas id="matrixCanvas"></canvas>
 
 <!-- TOPBAR -->
 <div class="topbar">
   <span class="topbar-left"><span class="kw">from</span> sachin <span class="kw">import</span> <span class="fn">portfolio</span></span>
   <div class="topbar-nav">
-    <a href="#about">about</a>
-    <a href="#industries">industries</a>
     <a href="#experience">experience</a>
-    <a href="#services">services</a>
+    <a href="#solve">what I solve</a>
     <a href="#stack">stack</a>
     <a href="#education">education</a>
     <a href="#contact">contact</a>
-    <a href="#" id="downloadCV" style="background:var(--green);color:var(--bg);padding:5px 14px;border-radius:6px;font-weight:600;">↓ Resume</a>
+    <a href="#" id="downloadCV" class="dl-btn">↓ Resume</a>
   </div>
   <div class="topbar-right">
-    <div class="topbar-status"><div class="dot"></div> available for work</div>
-    <span class="topbar-loc">India</span>
+    <span class="topbar-status">India</span>
   </div>
+</div>
+
+<!-- FLOATING CTA -->
+<div class="floating-cta">
+  <a href="mailto:sachinchoudhary.nituk@gmail.com">✉ Let's talk</a>
 </div>
 
 <!-- LAYOUT -->
 <div class="layout">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-profile">
-      <div class="sidebar-avatar">
-        <img src="https://i.ibb.co/M5xFYqWB/PHOTO-2025-07-03-01-06-11.jpg" alt="Sachin Choudhary" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-        <div class="fallback" style="display:none;">SC</div>
-      </div>
-      <div class="sidebar-name">Sachin Choudhary</div>
-      <div class="sidebar-role">SeniorSoftwareEngineer()</div>
-      <div class="sidebar-bio">Backend engineer who ships 2x faster with AI. 5+ years building scalable systems across EdTech, FinTech, PropTech & AI.</div>
-      <div class="sidebar-info">
-        <div class="sidebar-info-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          5+ years of experience
-        </div>
-        <div class="sidebar-info-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          Gurgaon, India
-        </div>
-        <div class="sidebar-info-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><circle cx="12" cy="12" r="10"/></svg>
-          English, Hindi
-        </div>
-        <div class="sidebar-info-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          sachinchoudhary.nituk@gmail.com
-        </div>
-        <div class="sidebar-info-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.88.37 1.73.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c1.08.33 1.93.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          +91 8502892661
-        </div>
-      </div>
-      <div class="sidebar-btns">
-        <a href="mailto:sachinchoudhary.nituk@gmail.com" class="btn-primary">$ work_with_me</a>
-        <a href="#contact" class="btn-secondary">$ schedule_call</a>
-      </div>
+<aside class="sidebar">
+  <div class="sidebar-profile">
+    <div class="sidebar-avatar">
+      <img src="https://i.ibb.co/M5xFYqWB/PHOTO-2025-07-03-01-06-11.jpg" alt="Sachin Choudhary" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="fallback" style="display:none;">SC</div>
     </div>
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- HERO -->
-    <section class="hero-section">
-      <div class="hero-badge"><span class="kw">class</span> <span class="cls">SeniorEngineer</span>:</div>
-      <h1 class="hero-title">I Don't Just Write Code.<br>I Figure Out What<br>to Build — Faster.</h1>
-      <p class="hero-desc">Most engineers build what they're told. I sit with sales, marketing, and business teams — understand what actually moves the needle — then architect the backend systems that deliver it. 4 years building CRM platforms and automating lead management pipelines from capture to conversion. Deep PMS integrations across the world's most adopted platforms, and 5+ years shipping across EdTech, FinTech, PropTech & AI. AI isn't a buzzword in my workflow — it's a force multiplier.</p>
-    </section>
-
-    <!-- TERMINAL ABOUT -->
-    <div class="terminal">
-      <div class="terminal-bar">
-        <div class="terminal-dot r"></div>
-        <div class="terminal-dot y"></div>
-        <div class="terminal-dot g"></div>
-        <div class="terminal-title">sachin@dev ~ about_me.py</div>
-      </div>
-      <div class="terminal-body">
-        <span class="prompt">sachin@dev:~$</span> <span class="cmd">python3 about_me.py</span><br><br>
-        <span class="comment"># === whoami ===</span><br>
-        <span class="kw">class</span> <span class="type">Sachin</span>(<span class="type">Engineer</span>):<br>
-        &nbsp;&nbsp;<span class="fn">experience</span> = <span class="str">"5+ years"</span><br>
-        &nbsp;&nbsp;<span class="fn">industries</span> = [<span class="str">"EdTech"</span>, <span class="str">"FinTech"</span>, <span class="str">"PropTech"</span>, <span class="str">"AI"</span>]<br>
-        &nbsp;&nbsp;<span class="fn">startups_scaled</span> = <span class="num">4</span><br>
-        &nbsp;&nbsp;<span class="fn">pms_expertise</span> = <span class="str">"Deep integrations with world's most adopted PMS platforms"</span><br>
-        &nbsp;&nbsp;<span class="fn">ai_tools</span> = [<span class="str">"Copilot"</span>, <span class="str">"Claude"</span>, <span class="str">"Cursor"</span>]<br><br>
-        &nbsp;&nbsp;<span class="kw">def</span> <span class="func">philosophy</span>(<span class="type">self</span>):<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> <span class="str">"AI isn't a buzzword. It's a force multiplier."</span><br><br>
-        <span class="prompt">sachin@dev:~$</span> <span class="cursor"></span>
-      </div>
+    <div class="sidebar-name">Sachin Choudhary</div>
+    <div class="sidebar-role">SeniorSoftwareEngineer()</div>
+    <div class="sidebar-bio">Ships 2x faster with AI. 5+ years building systems that power startups from zero to scale.</div>
+    <div class="sidebar-info">
+      <div class="sidebar-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>5+ years</div>
+      <div class="sidebar-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>India</div>
+      <div class="sidebar-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>sachinchoudhary.nituk@gmail.com</div>
+      <div class="sidebar-info-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.88.37 1.73.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c1.08.33 1.93.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>+91 8502892661</div>
     </div>
+    <div class="sidebar-btns">
+      <a href="mailto:sachinchoudhary.nituk@gmail.com" class="btn-primary">$ work_with_me</a>
+      <a href="https://www.linkedin.com/in/sachin-choudhary-655898191/" target="_blank" class="btn-secondary">LinkedIn</a>
+      <a href="https://github.com/sachinjaat" target="_blank" class="btn-secondary">GitHub</a>
+    </div>
+  </div>
+</aside>
 
-    <!-- SINCE BANNER -->
-    <div class="since-banner">
-      <div class="since-track">
-        <span><span class="kw">while</span> True:</span><span class="op">·····</span>
-        <span>exp = <span class="num">2020</span></span><span class="op">·····</span>
-        <span><span class="kw">def</span> build():</span><span class="op">·····</span>
-        <span>years += <span class="num">1</span></span><span class="op">·····</span>
-        <span><span class="kw">while</span> True:</span><span class="op">·····</span>
-        <span>exp = <span class="num">2020</span></span><span class="op">·····</span>
-        <span><span class="kw">def</span> build():</span><span class="op">·····</span>
-        <span>years += <span class="num">1</span></span><span class="op">·····</span>
+<main class="main">
+
+  <!-- HERO -->
+  <section class="hero-section">
+    <div class="hero-badge"><span class="kw">class</span> <span class="cls">SeniorEngineer</span> :</div>
+    <h1 class="hero-title">I Don't Just Write Code.<br>I Figure Out What<br>to Build — Faster.</h1>
+    <p class="hero-desc">Most engineers build what they're told. I sit with sales, marketing, and business teams — understand what actually moves the needle — then architect the backend systems that deliver it. 4 years building CRM platforms and automating lead management pipelines from capture to conversion. Deep PMS integrations across the world's most adopted platforms, and 5+ years shipping across EdTech, FinTech, PropTech & AI. AI isn't a buzzword in my workflow — it's a force multiplier.</p>
+  </section>
+
+  <!-- IMPACT STATS -->
+  <div class="stats-bar">
+    <div class="stat-card"><div class="stat-num">5+</div><div class="stat-label">Years shipping</div></div>
+    <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Startups scaled<br>0→1→100</div></div>
+    <div class="stat-card"><div class="stat-num">10x</div><div class="stat-label">Data sync perf improvement</div></div>
+    <div class="stat-card"><div class="stat-num">30K+</div><div class="stat-label">Leads automated through CRM</div></div>
+  </div>
+
+  <!-- TERMINAL -->
+  <div class="terminal">
+    <div class="terminal-bar">
+      <div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div>
+      <div class="terminal-title">sachin@dev ~ python3 about_me.py</div>
+    </div>
+    <div class="terminal-body">
+      <span class="prompt">sachin@dev:~$</span> <span class="cmd">python3 about_me.py</span><br><br>
+      <span class="comment"># === whoami ===</span><br>
+      <span class="kw">class</span> <span class="type">Sachin</span>(<span class="type">Engineer</span>):<br>
+      &nbsp;&nbsp;<span class="fn">industries</span> = [<span class="str">"EdTech"</span>, <span class="str">"FinTech"</span>, <span class="str">"PropTech"</span>, <span class="str">"AI"</span>]<br>
+      &nbsp;&nbsp;<span class="fn">pms_expertise</span> = <span class="str">"Deep integrations with world's most adopted PMS platforms"</span><br>
+      &nbsp;&nbsp;<span class="fn">ai_tools</span> = [<span class="str">"Copilot"</span>, <span class="str">"Claude"</span>, <span class="str">"Cursor"</span>]<br><br>
+      &nbsp;&nbsp;<span class="comment"># === startup_dna ===</span><br>
+      &nbsp;&nbsp;<span class="fn">startup_journey</span> = {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"0→1"</span>: <span class="str">"Built first CRM, APIs & infra at ASL + VerbaFlo.AI"</span>,<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"1→10"</span>: <span class="str">"Workflow engines, 30K+ leads, ₹2000Cr+ loans"</span>,<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"10→100"</span>: <span class="str">"Data integrity, dashboards, 200+ users at scale"</span>,<br>
+      &nbsp;&nbsp;}<br><br>
+      &nbsp;&nbsp;<span class="kw">def</span> <span class="func">philosophy</span>(<span class="type">self</span>):<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> <span class="str">"AI isn't a buzzword. It's a force multiplier."</span><br><br>
+      <span class="prompt">sachin@dev:~$</span> <span class="cursor"></span>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <section class="exp-section" id="experience">
+    <div class="sec-header"><h2 class="sec-title"><span class="comment"># experience.py</span>Where I've Built & Shipped</h2></div>
+
+    <div class="exp-item">
+      <div class="exp-top">
+        <span class="exp-role">Senior Software Engineer</span>
+        <span class="exp-date">2025 — present</span>
       </div>
+      <div class="exp-company">
+        <a href="https://www.verbaflo.ai/" target="_blank" class="exp-logo"><img src="https://cdn.prod.website-files.com/671262cd50757509c8fdc1bb/67127c9fb807dbb72a02376d_logo.avif" alt="VerbaFlo" onerror="this.style.display='none'" />VerbaFlo.AI</a>
+      </div>
+      <div class="exp-industry">AI Communications · Real Estate · $7M Funded</div>
+      <div class="exp-desc">Built deep PMS integrations with the world's most adopted Property Management Systems — syncing property, lease, and resident data across multi-client environments. Redesigned data sync achieving 10x performance. Automated ops pipelines replacing manual QA with integrity frameworks. Built multi-channel outreach (voice, email, WhatsApp).</div>
+      <div class="exp-tags"><span>PMS Integrations</span><span>Real Estate Data</span><span>Ops Automation</span><span>10x Perf</span></div>
     </div>
 
-    <!-- ABOUT -->
-    <section class="about-section" id="about">
-      <div class="sec-header"><h2 class="sec-title"><span class="comment"># about_me.py</span>Inside My Engineering Core</h2></div>
-      <p class="about-text">Senior Software Engineer with 5+ years across 4 startups. I've built core CRM infrastructure, automated end-to-end sales processes, and shipped platforms serving tens of thousands of users — from lead capture to conversion at scale. For 4 years at ASL (UniAcco, UniCreds, UniScholars), I was the engineer behind the sales automation machinery. Now at VerbaFlo.AI, I lead deep PMS integrations with the world's most adopted Property Management Systems, data integrity frameworks, and automated ops pipelines.</p>
-      <div class="ai-callout">
-        <span class="ai-callout-icon">⚡</span>
-        <div>
-          <div class="ai-callout-title">AI isn't a buzzword in my workflow — it's a force multiplier.</div>
-          <div class="ai-callout-text">I use Copilot, Claude, and Cursor daily for writing code, reviewing PRs, system design, debugging, and documentation. Engineers who treat AI as a tool, not a threat, ship 2x faster. I'm one of them.</div>
-        </div>
+    <div class="exp-item">
+      <div class="exp-top">
+        <span class="exp-role">Senior Backend Engineer</span>
+        <span class="exp-date">2024 — 2025</span>
       </div>
-      <p class="about-text">I bring deep backend expertise (my core), solid frontend understanding, DevOps fluency, real estate data domain knowledge, and product instinct — all forged from building through 0→1, 1→10, and 10→100 startup phases.</p>
-    </section>
+      <div class="exp-company">
+        <a href="https://unischolars.com/" target="_blank" class="exp-logo"><img src="https://unischolars.gumlet.io/logo/UniScholars.png?w=1280&q=75" alt="UniScholars" onerror="this.style.display='none'" />UniScholars</a>
+      </div>
+      <div class="exp-industry">EdTech · Study Abroad · 30K+ Students</div>
+      <div class="exp-desc">Automated the entire sales funnel — WhatsApp notifications, lead re-engagement, targeted campaigns across 30K+ leads. Built admin-configurable workflow system for non-technical teams. Optimized DB performance reducing response times 60%.</div>
+      <div class="exp-tags"><span>Sales Automation</span><span>Workflow Engine</span><span>Lead Nurturing</span></div>
+    </div>
 
-    <!-- INDUSTRIES -->
-    <section class="industry-section" id="industries">
-      <div class="sec-header">
-        <h2 class="sec-title"><span class="comment"># industries.py</span>Industries I've Built For</h2>
-        <p class="sec-desc">Real products, real users, real scale — across four high-growth domains.</p>
+    <div class="exp-item">
+      <div class="exp-top">
+        <span class="exp-role">Backend Engineer</span>
+        <span class="exp-date">2023 — 2024</span>
       </div>
-      <div class="industry-grid">
-        <div class="industry-card">
-          <div class="ind-label">AI · Real Estate · PropTech</div>
-          <div class="ind-name">VerbaFlo.AI</div>
-          <div class="ind-desc">AI communications platform for real estate — automating lead-to-lease conversations. Deep integrations with the world's most adopted PMS platforms for property and resident data.</div>
-          <div class="ind-stats"><span class="ind-stat">$7M Raised</span><span class="ind-stat">PMS Integrations</span><span class="ind-stat">Real Estate Data</span></div>
-        </div>
-        <div class="industry-card">
-          <div class="ind-label">EdTech · Study Abroad</div>
-          <div class="ind-name">UniScholars</div>
-          <div class="ind-desc">One-stop study abroad platform — 600+ universities, CRM-driven lead nurturing, automated counselling workflows.</div>
-          <div class="ind-stats"><span class="ind-stat">30K+ Students</span><span class="ind-stat">600+ Universities</span><span class="ind-stat">200+ Counsellors</span></div>
-        </div>
-        <div class="industry-card">
-          <div class="ind-label">FinTech · Education Loans</div>
-          <div class="ind-name">UniCreds</div>
-          <div class="ind-desc">Education loan marketplace — 20+ lenders, 48-hour sanctions, end-to-end application management.</div>
-          <div class="ind-stats"><span class="ind-stat">₹2,000 Cr+ Disbursed</span><span class="ind-stat">20K+ Students</span><span class="ind-stat">20+ Lenders</span></div>
-        </div>
-        <div class="industry-card">
-          <div class="ind-label">PropTech · Student Housing</div>
-          <div class="ind-name">UniAcco</div>
-          <div class="ind-desc">Global student accommodation marketplace — verified listings, price guarantee, 24x7 assistance.</div>
-          <div class="ind-stats"><span class="ind-stat">Verified Listings</span><span class="ind-stat">Global Coverage</span><span class="ind-stat">24x7 Support</span></div>
-        </div>
+      <div class="exp-company">
+        <a href="https://unischolars.com/" target="_blank" class="exp-logo"><img src="https://unischolars.gumlet.io/logo/UniScholars.png?w=1280&q=75" alt="UniScholars" onerror="this.style.display='none'" />UniScholars</a>
       </div>
-    </section>
+      <div class="exp-industry">EdTech · CRM · 200+ Counsellors</div>
+      <div class="exp-desc">Architected core CRM backend for 200+ counsellors. Designed DB schemas for performance and integrity. Managed AWS (EC2, S3, RDS). Built async processing with Celery and RESTful APIs bridging platform with CRM.</div>
+      <div class="exp-tags"><span>CRM Architecture</span><span>AWS</span><span>Celery</span><span>REST APIs</span></div>
+    </div>
 
-    <!-- EXPERIENCE -->
-    <section class="exp-section" id="experience">
-      <div class="sec-header"><h2 class="sec-title"><span class="comment"># experience.py</span>Where I've Built & Shipped</h2></div>
-      <div>
-        <div class="timeline-item">
-          <div>
-            <div class="timeline-date"># 2025 – present</div>
-            <div class="timeline-logo"><a href="https://www.verbaflo.ai/" target="_blank"><img src="https://cdn.prod.website-files.com/671262cd50757509c8fdc1bb/67127c9fb807dbb72a02376d_logo.avif" alt="VerbaFlo.AI" onerror="this.style.display='none'" />VerbaFlo.AI</a></div>
-          </div>
-          <div>
-            <div class="timeline-role">Senior Software Engineer</div>
-            <div class="timeline-company">VerbaFlo.AI · Gurgaon</div>
-            <div class="timeline-desc">Leading engineering on VerbaFlo's AI communications platform for real estate operators. Built deep integrations with the world's most adopted Property Management Systems — robust data pipelines syncing property, lease, and resident data across multi-client environments. Redesigned data synchronization architecture achieving 10x performance improvement. Engineered automated operations pipelines that replaced manual intervention. Built automated data verification and integrity/sanity frameworks. Created multi-channel outreach platform (voice, email, WhatsApp). Actively leverage AI tools (Copilot, Claude) in daily workflow.</div>
-            <div class="timeline-tags"><span>PMS Integrations</span><span>Real Estate Data</span><span>Ops Automation</span><span>Data Integrity</span><span>10x Sync Perf</span></div>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div>
-            <div class="timeline-date"># 2024 – 2025</div>
-            <div class="timeline-logo"><a href="https://unischolars.com/" target="_blank"><img src="https://unischolars.gumlet.io/logo/UniScholars.png?w=1280&q=75" alt="UniScholars" onerror="this.style.display='none'" />UniScholars</a></div>
-          </div>
-          <div>
-            <div class="timeline-role">Senior Backend Engineer</div>
-            <div class="timeline-company">UniScholars · Mumbai</div>
-            <div class="timeline-desc">Deeply automated the sales process for India's leading study abroad platform. Built automated workflow engine for lead management — WhatsApp notifications, lead re-engagement, targeted campaigns across 30K+ student leads. Created admin-configurable workflow system for non-technical teams. Optimized database performance through query optimization and indexing. Drove technical planning with business stakeholders.</div>
-            <div class="timeline-tags"><span>Sales CRM Automation</span><span>Workflow Engine</span><span>Lead Nurturing</span><span>WhatsApp Campaigns</span></div>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div>
-            <div class="timeline-date"># 2023 – 2024</div>
-            <div class="timeline-logo"><a href="https://unischolars.com/" target="_blank"><img src="https://unischolars.gumlet.io/logo/UniScholars.png?w=1280&q=75" alt="UniScholars" onerror="this.style.display='none'" />UniScholars</a></div>
-          </div>
-          <div>
-            <div class="timeline-role">Backend Engineer</div>
-            <div class="timeline-company">UniScholars · Mumbai</div>
-            <div class="timeline-desc">Architected core backend infrastructure for CRM and web platform. Designed database schemas for performance, scalability, and data integrity. Managed AWS infrastructure (EC2, S3, RDS). Built async task processing with Celery. Designed RESTful APIs bridging web platform with CRM used by 200+ counsellors.</div>
-            <div class="timeline-tags"><span>CRM Architecture</span><span>AWS Infra</span><span>Celery</span><span>REST APIs</span></div>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div>
-            <div class="timeline-date"># 2021 – 2023</div>
-            <div class="timeline-logo">
-              <a href="https://uniacco.com/" target="_blank"><img src="https://uniacco.imgix.net/site-static/v2/uniacco/logo.svg" alt="UniAcco" onerror="this.style.display='none'" />UniAcco</a>
-              <a href="https://unicreds.com/" target="_blank"><img src="https://assets.unicreds.com/v2/unicreds/logo_full.svg" alt="UniCreds" onerror="this.style.display='none'" />UniCreds</a>
-            </div>
-          </div>
-          <div>
-            <div class="timeline-role">Full Stack Engineer</div>
-            <div class="timeline-company">UniAcco & UniCreds · Mumbai</div>
-            <div class="timeline-desc">Built backend systems powering UniAcco's global student accommodation marketplace and UniCreds' ₹2,000Cr+ education loan platform. Built executive sales dashboards with real-time analytics. Integrated ZOOP.ONE (KYC), Experian (credit assessment), Slack, Facebook APIs. Managed CI/CD pipelines. Led Angular → React migration.</div>
-            <div class="timeline-tags"><span>Full Stack</span><span>Sales Dashboard</span><span>KYC/Credit APIs</span><span>CI/CD</span><span>React Migration</span></div>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div><div class="timeline-date"># 2020</div></div>
-          <div>
-            <div class="timeline-role">Web Development Intern</div>
-            <div class="timeline-company">Prof-Cess</div>
-            <div class="timeline-desc">Transitioned front-end codebase from Angular to React JS, optimizing rendering performance.</div>
-            <div class="timeline-tags"><span>Angular</span><span>React</span><span>Migration</span></div>
-          </div>
-        </div>
+    <div class="exp-item">
+      <div class="exp-top">
+        <span class="exp-role">Full Stack Engineer</span>
+        <span class="exp-date">2021 — 2023</span>
       </div>
-    </section>
+      <div class="exp-company">
+        <a href="https://uniacco.com/" target="_blank" class="exp-logo"><img src="https://uniacco.imgix.net/site-static/v2/uniacco/logo.svg" alt="UniAcco" onerror="this.style.display='none'" />UniAcco</a>
+        <a href="https://unicreds.com/" target="_blank" class="exp-logo"><img src="https://assets.unicreds.com/v2/unicreds/logo_full.svg" alt="UniCreds" onerror="this.style.display='none'" />UniCreds</a>
+      </div>
+      <div class="exp-industry">PropTech · FinTech · ₹2,000Cr+ Loans</div>
+      <div class="exp-desc">Built backend for global student accommodation marketplace and ₹2,000Cr+ education loan platform. Real-time sales dashboards. Integrated KYC (ZOOP.ONE), credit scoring (Experian), Slack, Facebook. Led Angular→React migration.</div>
+      <div class="exp-tags"><span>Sales Dashboard</span><span>KYC/Credit APIs</span><span>CI/CD</span><span>React Migration</span></div>
+    </div>
 
-    <!-- WHAT I DO -->
-    <section class="services-section" id="services">
-      <div class="sec-header">
-        <h2 class="sec-title"><span class="comment"># services.py</span>What I Do</h2>
-        <p class="sec-desc">Deep backend expertise, strong frontend understanding, DevOps fluency, and the product instinct to know what matters.</p>
+    <div class="exp-item">
+      <div class="exp-top">
+        <span class="exp-role">Web Development Intern</span>
+        <span class="exp-date">2020</span>
       </div>
-      <div class="service-cards">
-        <div class="service-card">
-          <h3><span class="kw">def </span><span class="fn">backend_engineering</span>():</h3>
-          <ul class="service-list">
-            <li>Django REST Framework</li><li>FastAPI</li><li>System Design</li><li>CRM Architecture</li>
-            <li>Sales Automation</li><li>DB Schema Design</li><li>Query Optimization</li><li>Celery Async</li>
-            <li>PMS Integrations</li><li>Data Pipelines</li><li>Data Integrity Frameworks</li><li>WebSockets</li>
-            <li>RAG Systems</li><li>LLM Integration</li>
-          </ul>
-        </div>
-        <div class="service-card">
-          <h3><span class="kw">def </span><span class="fn">devops_security</span>():</h3>
-          <ul class="service-list">
-            <li>AWS (EC2, S3, RDS, Lambda)</li><li>CI/CD Pipelines</li><li>Production Monitoring</li>
-            <li>Cost Optimization</li><li>High-Availability</li><li>Docker</li>
-            <li>Infrastructure Security</li><li>Access Control & Auth</li>
-          </ul>
-        </div>
-        <div class="service-card">
-          <h3><span class="kw">def </span><span class="fn">product_and_frontend</span>():</h3>
-          <ul class="service-list">
-            <li>React.js</li><li>Node.js</li><li>Real-Time Dashboards</li><li>Workflow UIs</li>
-            <li>Requirements Analysis</li><li>Stakeholder Communication</li><li>Cross-Functional Collaboration</li><li>Sprint Planning</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+      <div class="exp-company"><span class="exp-company-name">Prof-Cess</span></div>
+      <div class="exp-desc">Transitioned front-end from Angular to React JS, optimizing rendering performance.</div>
+      <div class="exp-tags"><span>Angular</span><span>React</span></div>
+    </div>
+  </section>
 
-    <!-- TECH STACK - TERMINAL TABLE -->
-    <section class="stack-section" id="stack">
-      <div class="sec-header"><h2 class="sec-title"><span class="comment"># tech_stack.py</span>My Tech Stack</h2></div>
-      <div class="stack-terminal">
-        <div class="stack-terminal-bar">
-          <div class="terminal-dot r"></div>
-          <div class="terminal-dot y"></div>
-          <div class="terminal-dot g"></div>
-          <div class="title">sachin@dev ~ pip list --format=table</div>
-        </div>
-        <table class="stack-table">
-          <thead><tr><th></th><th>Package</th><th>Category</th><th>Proficiency</th><th></th></tr></thead>
-          <tbody id="stackBody"></tbody>
-        </table>
-      </div>
-    </section>
+  <!-- AI CALLOUT -->
+  <div class="ai-callout">
+    <span class="ai-callout-icon">⚡</span>
+    <div>
+      <div class="ai-callout-title">AI isn't a buzzword in my workflow — it's a force multiplier.</div>
+      <div class="ai-callout-text">I use Copilot, Claude, and Cursor daily for writing code, reviewing PRs, system design, debugging, and documentation. Engineers who treat AI as a tool, not a threat, ship 2x faster. I'm one of them.</div>
+    </div>
+  </div>
 
-    <!-- EDUCATION -->
-    <section class="edu-section" id="education">
-      <div class="sec-header">
-        <h2 class="sec-title"><span class="comment"># education.py</span>Education</h2>
+  <!-- PROBLEMS I SOLVE -->
+  <section class="solve-section" id="solve">
+    <div class="sec-header">
+      <h2 class="sec-title"><span class="comment"># problems_i_solve.py</span>What I Actually Do</h2>
+      <p class="sec-desc">Not a list of frameworks. A list of problems I make disappear.</p>
+    </div>
+    <div class="solve-grid">
+      <div class="solve-card">
+        <div class="solve-title">Turn manual sales processes into automated pipelines</div>
+        <div class="solve-desc">Your sales team is doing repetitive work that code should handle. I build CRM backends, workflow engines, and lead nurturing systems that run on autopilot.</div>
+        <div class="solve-tools">Django · FastAPI · Celery · WhatsApp API · WebSockets</div>
       </div>
-
-      <div class="edu-card">
-        <div class="edu-card-inner">
-          <div class="edu-logo">
-            <img src="https://img.collegepravesh.com/2014/08/NIT-Uttarakhand-Logo.png" alt="NIT Uttarakhand" />
-          </div>
-          <div class="edu-details">
-            <div class="edu-inst">NIT Uttarakhand</div>
-            <div class="edu-inst-full">National Institute of Technology, Uttarakhand — Institute of National Importance</div>
-            <div class="edu-degree">B.Tech — Electronics & Communication Engineering</div>
-            <div class="edu-meta">
-              <span class="edu-tag">2017 – 2021</span>
-              <span class="edu-tag">Institute of National Importance</span>
-              <span class="edu-tag">JEE Main</span>
-              <span class="edu-tag">Srinagar, Uttarakhand</span>
-              <span class="edu-tag">NIRF Ranked</span>
-            </div>
-            <div class="edu-highlight">One of 31 NITs in India — established under Act of Parliament by Ministry of Education. Admission through JEE Main, one of the most competitive engineering entrance exams in the country with 1M+ candidates annually.</div>
-          </div>
-        </div>
+      <div class="solve-card">
+        <div class="solve-title">Connect your product to the systems it needs</div>
+        <div class="solve-desc">PMS platforms, KYC providers, credit bureaus, payment gateways — I've integrated them all. Clean data in, reliable data out.</div>
+        <div class="solve-tools">REST APIs · PMS Systems · ZOOP.ONE · Experian · Data Pipelines</div>
       </div>
-
-      <div class="edu-school">
-        <div class="edu-school-name">Gurukul Public School — Alwar, Rajasthan</div>
-        <div class="edu-school-detail">Higher Secondary (Class XII) · Aggregate: 90% · 2016</div>
+      <div class="solve-card">
+        <div class="solve-title">Make your backend actually fast</div>
+        <div class="solve-desc">Slow queries, sync bottlenecks, infrastructure that breaks at scale. I redesign the architecture — like the 10x data sync improvement I shipped at VerbaFlo.</div>
+        <div class="solve-tools">PostgreSQL · Redis · Query Optimization · System Design · AWS</div>
       </div>
-    </section>
-
-    <!-- STARTUP JOURNEY -->
-    <section class="journey-section" id="journey">
-      <div class="sec-header">
-        <h2 class="sec-title"><span class="comment"># startup_dna.py</span>The Startup DNA</h2>
-        <p class="sec-desc">I've lived every phase of startup engineering — from the first commit to scaling for growth.</p>
+      <div class="solve-card">
+        <div class="solve-title">Build data systems you can trust</div>
+        <div class="solve-desc">Automated verification, integrity checks, sanity frameworks. When your data is wrong, everything downstream breaks. I make sure it doesn't.</div>
+        <div class="solve-tools">Data Integrity · RAG Systems · Automated QA · CI/CD · Docker</div>
       </div>
-      <div class="journey-cards">
-        <div class="journey-card">
-          <div class="journey-phase">0 → 1</div>
-          <div class="journey-title">Zero to One</div>
-          <div class="journey-desc">At ASL (parent company of UniAcco, UniCreds & UniScholars), built the first CRM systems, APIs, and infra from scratch. At VerbaFlo.AI, joined early and still building — from first data pipelines to production-grade PMS integrations.</div>
-        </div>
-        <div class="journey-card">
-          <div class="journey-phase">1 → 10</div>
-          <div class="journey-title">Finding Scale</div>
-          <div class="journey-desc">At ASL, scaled prototypes into production CRM platforms. Built workflow engines, automated lead nurturing for 30K+ students, integrated KYC/credit APIs powering ₹2,000Cr+ in loan disbursals.</div>
-        </div>
-        <div class="journey-card">
-          <div class="journey-phase">10 → 100</div>
-          <div class="journey-title">Growth Engineering</div>
-          <div class="journey-desc">At ASL, engineered for the next order of magnitude — data integrity frameworks, admin-configurable workflows, real-time sales dashboards, and performance optimization across 200+ counsellors and 30K+ students.</div>
-        </div>
+      <div class="solve-card">
+        <div class="solve-title">Ship the product, not just the code</div>
+        <div class="solve-desc">I sit with sales, marketing, and business teams to understand what matters — then translate requirements into architecture that actually solves the problem.</div>
+        <div class="solve-tools">Requirements Analysis · Sprint Planning · Stakeholder Communication</div>
       </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="contact-section" id="contact">
-      <div class="sec-header">
-        <h2 class="sec-title"><span class="comment"># connect.py</span>Let's Work Together</h2>
-        <p class="sec-desc">Startup needing a strong engineering partner? Team needing backend & CRM expertise? Let's connect.</p>
-      </div>
-      <div class="contact-grid">
-        <a href="mailto:sachinchoudhary.nituk@gmail.com" class="contact-chip">✉️ sachinchoudhary.nituk@gmail.com</a>
-        <a href="tel:+918502892661" class="contact-chip">📞 +91 8502892661</a>
-        <a href="https://github.com/sachinjaat" class="contact-chip" target="_blank">💻 GitHub</a>
-        <a href="https://www.linkedin.com/in/sachin-choudhary-655898191/" class="contact-chip" target="_blank">🔗 LinkedIn</a>
-      </div>
-    </section>
-
-    <div class="footer-marquee">
-      <div class="footer-track">
-        <span>AI isn't a buzzword — it's a force multiplier</span><span>·</span>
-        <span>EdTech · FinTech · PropTech · AI</span><span>·</span>
-        <span>Ships 2x faster with AI</span><span>·</span>
-        <span>$7M AI startup</span><span>·</span>
-        <span>0→1→10→100</span><span>·</span>
-        <span>AI isn't a buzzword — it's a force multiplier</span><span>·</span>
-        <span>EdTech · FinTech · PropTech · AI</span><span>·</span>
-        <span>Ships 2x faster with AI</span><span>·</span>
-        <span>$7M AI startup</span><span>·</span>
-        <span>0→1→10→100</span>
+      <div class="solve-card">
+        <div class="solve-title">Build infrastructure that doesn't wake you up at 3am</div>
+        <div class="solve-desc">High-availability AWS architecture, monitoring, security hardening, and deployment pipelines that let you sleep peacefully.</div>
+        <div class="solve-tools">AWS · EC2 · S3 · RDS · Infrastructure Security · Monitoring</div>
       </div>
     </div>
-  </main>
+  </section>
+
+  <!-- TECH STACK -->
+  <section class="stack-section" id="stack">
+    <div class="sec-header"><h2 class="sec-title"><span class="comment"># tech_stack.py</span>The Full Arsenal</h2></div>
+    <div class="stack-terminal">
+      <div class="stack-terminal-bar">
+        <div class="terminal-dot r"></div><div class="terminal-dot y"></div><div class="terminal-dot g"></div>
+        <div class="title">sachin@dev ~ pip list --format=table</div>
+      </div>
+      <table class="stack-table"><thead><tr><th></th><th>Package</th><th>Category</th><th>Proficiency</th><th></th></tr></thead><tbody id="stackBody"></tbody></table>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="edu-section" id="education">
+    <div class="sec-header"><h2 class="sec-title"><span class="comment"># education.py</span>Education</h2></div>
+    <div class="edu-card">
+      <div class="edu-card-inner">
+        <div class="edu-logo"><img src="https://img.collegepravesh.com/2014/08/NIT-Uttarakhand-Logo.png" alt="NIT Uttarakhand" /></div>
+        <div class="edu-details">
+          <div class="edu-inst">NIT Uttarakhand</div>
+          <div class="edu-inst-full">National Institute of Technology — Institute of National Importance</div>
+          <div class="edu-degree">B.Tech — Electronics & Communication Engineering</div>
+          <div class="edu-meta">
+            <span class="edu-tag">2017–2021</span><span class="edu-tag">JEE Main</span><span class="edu-tag">NIRF Ranked</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="edu-school">
+      <div class="edu-school-name">Gurukul Public School — Alwar, Rajasthan</div>
+      <div class="edu-school-detail">Higher Secondary (XII) · 90% · 2016</div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-section" id="contact">
+    <div class="sec-header">
+      <h2 class="sec-title"><span class="comment"># connect.py</span>Let's Build Something</h2>
+    </div>
+    <div class="contact-grid">
+      <a href="mailto:sachinchoudhary.nituk@gmail.com" class="contact-chip">✉️ sachinchoudhary.nituk@gmail.com</a>
+      <a href="tel:+918502892661" class="contact-chip">📞 +91 8502892661</a>
+      <a href="https://github.com/sachinjaat" class="contact-chip" target="_blank">💻 GitHub</a>
+      <a href="https://www.linkedin.com/in/sachin-choudhary-655898191/" class="contact-chip" target="_blank">🔗 LinkedIn</a>
+    </div>
+  </section>
+
+  <div class="footer-marquee">
+    <div class="footer-track">
+      <span>AI isn't a buzzword — it's a force multiplier</span><span>·</span>
+      <span>Ships 2x faster with AI</span><span>·</span>
+      <span>0→1→10→100</span><span>·</span>
+      <span>EdTech · FinTech · PropTech · AI</span><span>·</span>
+      <span>AI isn't a buzzword — it's a force multiplier</span><span>·</span>
+      <span>Ships 2x faster with AI</span><span>·</span>
+      <span>0→1→10→100</span><span>·</span>
+      <span>EdTech · FinTech · PropTech · AI</span>
+    </div>
+  </div>
+</main>
 </div>
 
 <script>
-// MATRIX RAIN
+// Matrix rain
 const canvas=document.getElementById('matrixCanvas'),ctx=canvas.getContext('2d');
 function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
 resize();window.addEventListener('resize',resize);
-const pyChars='def class import return if else for while True False None self async await try except with yield lambda'.split('').filter(c=>c!==' ');
+const pyC='defclassimportreturnifelsforwhileTrueFalseNoneasyncawait'.split('');
 const cols=Math.floor(canvas.width/14),drops=Array(cols).fill(1);
-function drawMatrix(){
-  ctx.fillStyle='rgba(10,10,10,0.05)';ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle='#306998';ctx.font='12px Source Code Pro';
-  for(let i=0;i<drops.length;i++){
-    ctx.fillText(pyChars[Math.floor(Math.random()*pyChars.length)],i*14,drops[i]*14);
-    if(drops[i]*14>canvas.height&&Math.random()>.975)drops[i]=0;
-    drops[i]++;
-  }
-}
+function drawMatrix(){ctx.fillStyle='rgba(10,10,10,0.05)';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#306998';ctx.font='12px Source Code Pro';for(let i=0;i<drops.length;i++){ctx.fillText(pyC[Math.floor(Math.random()*pyC.length)],i*14,drops[i]*14);if(drops[i]*14>canvas.height&&Math.random()>.975)drops[i]=0;drops[i]++;}}
 setInterval(drawMatrix,50);
 
-// TECH STACK TABLE
+// Tech stack
 const stack=[
   {name:'Python',icon:'🐍',cat:'Language',pct:95,color:'#4ec9b0'},
   {name:'Django / DRF',icon:'🎯',cat:'Framework',pct:92,color:'#569cd6'},
@@ -940,12 +570,12 @@ const stack=[
   {name:'PostgreSQL',icon:'🐘',cat:'Database',pct:90,color:'#569cd6'},
   {name:'MySQL',icon:'🗄️',cat:'Database',pct:85,color:'#9cdcfe'},
   {name:'MongoDB',icon:'🍃',cat:'Database',pct:72,color:'#4ec9b0'},
-  {name:'Redis / Celery',icon:'🔴',cat:'Async / Cache',pct:88,color:'#ce9178'},
+  {name:'Redis / Celery',icon:'🔴',cat:'Async',pct:88,color:'#ce9178'},
   {name:'AWS',icon:'☁️',cat:'Cloud',pct:82,color:'#dcdcaa'},
   {name:'Docker',icon:'🐳',cat:'DevOps',pct:78,color:'#569cd6'},
-  {name:'CI/CD Pipelines',icon:'🔄',cat:'DevOps',pct:80,color:'#9cdcfe'},
-  {name:'AI / LLMs',icon:'🤖',cat:'AI & ML',pct:80,color:'#c586c0'},
-  {name:'RAG Systems',icon:'🧠',cat:'AI & ML',pct:75,color:'#c586c0'},
+  {name:'CI/CD',icon:'🔄',cat:'DevOps',pct:80,color:'#9cdcfe'},
+  {name:'AI / LLMs',icon:'🤖',cat:'AI',pct:80,color:'#c586c0'},
+  {name:'RAG Systems',icon:'🧠',cat:'AI',pct:75,color:'#c586c0'},
   {name:'Copilot / Claude',icon:'✨',cat:'AI Tools',pct:90,color:'#dcdcaa'},
   {name:'WebSockets',icon:'🔌',cat:'Protocol',pct:76,color:'#c586c0'},
   {name:'REST API Design',icon:'📡',cat:'Architecture',pct:94,color:'#4ec9b0'},
@@ -954,153 +584,30 @@ const stack=[
   {name:'Infra Security',icon:'🔒',cat:'Security',pct:72,color:'#f44747'},
   {name:'Git / GitHub',icon:'🔀',cat:'VCS',pct:90,color:'#ce9178'},
 ];
-const scrambleChars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*<>{}[]|/\\';
+const scrambleChars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*';
 const tbody=document.getElementById('stackBody');
 stack.forEach(s=>{
   const tr=document.createElement('tr');
-  tr.innerHTML=`
-    <td class="st-icon">${s.icon}</td>
-    <td><span class="st-name scramble-text" data-text="${s.name}">${s.name}</span></td>
-    <td class="st-cat">${s.cat}</td>
-    <td class="st-bar"><div class="st-bar-inner"><div class="st-bar-fill" style="width:0%;background:${s.color}" data-pct="${s.pct}"></div></div></td>
-    <td class="st-pct">${s.pct}%</td>
-  `;
-  tr.addEventListener('mouseenter',()=>{
-    const el=tr.querySelector('.scramble-text');
-    const orig=el.dataset.text;let iter=0;
-    const iv=setInterval(()=>{
-      el.textContent=orig.split('').map((c,i)=>i<iter?orig[i]:scrambleChars[Math.floor(Math.random()*scrambleChars.length)]).join('');
-      if(iter>=orig.length)clearInterval(iv);
-      iter+=0.5;
-    },25);
+  tr.innerHTML='<td class="st-icon">'+s.icon+'</td><td><span class="st-name scramble-text" data-text="'+s.name+'">'+s.name+'</span></td><td class="st-cat">'+s.cat+'</td><td class="st-bar"><div class="st-bar-inner"><div class="st-bar-fill" style="width:0%;background:'+s.color+'" data-pct="'+s.pct+'"></div></div></td><td class="st-pct">'+s.pct+'%</td>';
+  tr.addEventListener('mouseenter',function(){
+    var el=tr.querySelector('.scramble-text');var orig=el.dataset.text;var iter=0;
+    var iv=setInterval(function(){el.textContent=orig.split('').map(function(c,i){return i<iter?orig[i]:scrambleChars[Math.floor(Math.random()*scrambleChars.length)]}).join('');if(iter>=orig.length)clearInterval(iv);iter+=0.5;},25);
   });
   tbody.appendChild(tr);
 });
-
-// Animate bars on scroll
-const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){en.target.querySelectorAll('.st-bar-fill').forEach(b=>{b.style.width=b.dataset.pct+'%';});}});},{threshold:.15});
+var obs=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting){en.target.querySelectorAll('.st-bar-fill').forEach(function(b){b.style.width=b.dataset.pct+'%';});}});},{threshold:.15});
 obs.observe(document.querySelector('.stack-table'));
 
 // Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const el=document.querySelector(a.getAttribute('href'));if(el)el.scrollIntoView({behavior:'smooth'});});});
+document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var el=document.querySelector(a.getAttribute('href'));if(el)el.scrollIntoView({behavior:'smooth'});});});
 
 // Resume download
 document.getElementById('downloadCV').addEventListener('click',function(e){
   e.preventDefault();
-  var styles = [
-    '@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap");',
-    '*{margin:0;padding:0;box-sizing:border-box;}',
-    'body{font-family:"Outfit",sans-serif;color:#111;max-width:800px;margin:0 auto;padding:40px 48px;line-height:1.55;font-size:13.5px;}',
-    'h1{font-family:"Source Code Pro",monospace;font-size:26px;font-weight:700;margin-bottom:2px;}',
-    '.sub{font-size:14px;color:#555;margin-bottom:10px;}',
-    '.info{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:#777;margin-bottom:16px;border-bottom:2px solid #111;padding-bottom:14px;}',
-    '.info a{color:#777;text-decoration:none;}',
-    '.st{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;border-bottom:1px solid #ddd;padding-bottom:4px;margin:18px 0 10px;color:#111;}',
-    '.sum{font-size:13px;color:#444;line-height:1.7;}',
-    '.ei{margin-bottom:16px;}',
-    '.eh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1px;}',
-    '.er{font-size:14px;font-weight:700;}',
-    '.ed{font-size:11.5px;color:#999;white-space:nowrap;}',
-    '.ec{font-size:12.5px;color:#666;margin-bottom:2px;}',
-    '.et{display:inline-block;font-size:10px;color:#888;background:#f5f5f5;padding:1px 7px;border-radius:3px;margin-bottom:6px;}',
-    'ul{list-style:none;padding:0;}',
-    'ul li{font-size:12.5px;color:#444;line-height:1.65;padding-left:12px;position:relative;margin-bottom:3px;}',
-    'ul li::before{content:"\\2022";position:absolute;left:0;color:#bbb;}',
-    '.sg{display:grid;grid-template-columns:110px 1fr;gap:6px 14px;font-size:12px;}',
-    '.sl{font-weight:600;color:#111;padding-top:1px;}',
-    '.sv{color:#444;line-height:1.6;}',
-    '.edu-h{display:flex;justify-content:space-between;align-items:baseline;}',
-    '.edu-d{font-size:13px;font-weight:600;}',
-    '.edu-s{font-size:12px;color:#666;}',
-    '@media print{body{padding:28px 36px;max-width:100%;}@page{margin:.5in;size:A4;}}'
-  ].join('\n');
-
-  var body = [
-    '<h1>Sachin Choudhary</h1>',
-    '<div class="sub">Senior Software Engineer</div>',
-    '<div class="info">',
-    '<span>Gurgaon, India</span>',
-    '<a href="mailto:sachinchoudhary.nituk@gmail.com">sachinchoudhary.nituk@gmail.com</a>',
-    '<a href="tel:+918502892661">+91 8502892661</a>',
-    '<a href="https://www.linkedin.com/in/sachin-choudhary-655898191/">LinkedIn</a>',
-    '<a href="https://github.com/sachinjaat">GitHub</a>',
-    '</div>',
-
-    '<div class="st">Professional Summary</div>',
-    '<div class="sum">Senior Software Engineer with 5+ years designing and scaling backend systems at high-growth startups across EdTech, FinTech, PropTech, and AI. Specialized in CRM architecture, sales process automation, Property Management System integrations (Entrata, Yardi, MRI, Concurrent), RAG systems, and data pipeline engineering. AI-native engineer leveraging Copilot, Claude, and Cursor daily. Built products from 0 to 1 through 10 to 100 at ASL (UniAcco, UniCreds, UniScholars) and currently building 0 to 1 at VerbaFlo.AI.</div>',
-
-    '<div class="st">Professional Experience</div>',
-
-    '<div class="ei"><div class="eh"><span class="er">Senior Software Engineer</span><span class="ed">Jan 2025 - Present</span></div>',
-    '<div class="ec">VerbaFlo.AI - Gurgaon</div>',
-    '<div class="et">AI Communications Platform | Real Estate | PMS Integrations | $7M Funded</div>',
-    '<ul>',
-    '<li>Integrated with major Property Management Systems (Entrata, Yardi, MRI, Concurrent) building data pipelines syncing property, lease, and resident data</li>',
-    '<li>Redesigned data synchronization architecture, achieving 10x performance improvement</li>',
-    '<li>Engineered automated operations pipelines eliminating manual intervention, improving productivity by 40%</li>',
-    '<li>Built automated data verification and integrity/sanity frameworks replacing manual QA</li>',
-    '<li>Developed multi-channel outreach platform supporting voice, email, and WhatsApp campaigns</li>',
-    '<li>Leverage AI tools (Copilot, Claude, Cursor) daily for accelerated development and system design</li>',
-    '</ul></div>',
-
-    '<div class="ei"><div class="eh"><span class="er">Senior Backend Engineer</span><span class="ed">Apr 2024 - Dec 2024</span></div>',
-    '<div class="ec">UniScholars (ASL) - Mumbai</div>',
-    '<div class="et">EdTech | Study Abroad | 30K+ Students | 600+ Universities</div>',
-    '<ul>',
-    '<li>Designed automated workflow engine for lead management with WhatsApp notifications, re-engagement, and targeted campaigns</li>',
-    '<li>Created admin-configurable workflow system enabling non-technical teams to set custom lead nurturing logic</li>',
-    '<li>Optimized database performance through query optimization and indexing, reducing response times by 60%</li>',
-    '<li>Drove technical planning and sprint estimation with marketing, sales, and business stakeholders</li>',
-    '</ul></div>',
-
-    '<div class="ei"><div class="eh"><span class="er">Backend Engineer</span><span class="ed">Apr 2023 - Mar 2024</span></div>',
-    '<div class="ec">UniScholars (ASL) - Mumbai</div>',
-    '<div class="et">EdTech | CRM | 200+ Counsellors</div>',
-    '<ul>',
-    '<li>Architected core backend infrastructure for CRM and web platform</li>',
-    '<li>Designed database schemas for performance, scalability, and data integrity</li>',
-    '<li>Managed AWS infrastructure (EC2, S3, RDS) ensuring high availability</li>',
-    '<li>Built async task processing with Celery for high-volume lead processing</li>',
-    '<li>Designed RESTful APIs bridging student-facing platform with internal CRM</li>',
-    '</ul></div>',
-
-    '<div class="ei"><div class="eh"><span class="er">Full Stack Engineer</span><span class="ed">Apr 2021 - Mar 2023</span></div>',
-    '<div class="ec">UniAcco and UniCreds (ASL) - Mumbai</div>',
-    '<div class="et">PropTech | FinTech | Rs 2,000Cr+ Loans | 20K+ Students</div>',
-    '<ul>',
-    '<li>Built backend for global student accommodation marketplace and education loan platform</li>',
-    '<li>Developed executive sales dashboard with real-time analytics and conversion funnel visibility</li>',
-    '<li>Integrated ZOOP.ONE (KYC), Experian (credit assessment), Slack, Facebook APIs</li>',
-    '<li>Managed CI/CD pipelines and conducted code reviews across staging and production</li>',
-    '<li>Led Angular to React migration improving rendering performance</li>',
-    '</ul></div>',
-
-    '<div class="ei"><div class="eh"><span class="er">Web Development Intern</span><span class="ed">Jun 2020 - Sep 2020</span></div>',
-    '<div class="ec">Prof-Cess</div>',
-    '<ul><li>Transitioned front-end codebase from Angular to React JS, optimizing rendering performance</li></ul></div>',
-
-    '<div class="st">Technical Skills</div>',
-    '<div class="sg">',
-    '<div class="sl">Languages</div><div class="sv">Python, JavaScript, Go, SQL</div>',
-    '<div class="sl">Backend</div><div class="sv">Django REST Framework, FastAPI, Node.js, Celery, WebSockets, REST API Design</div>',
-    '<div class="sl">Frontend</div><div class="sv">React.js, HTML5, CSS3</div>',
-    '<div class="sl">Databases</div><div class="sv">PostgreSQL, MySQL, MongoDB, Redis</div>',
-    '<div class="sl">Cloud/DevOps</div><div class="sv">AWS (EC2, S3, RDS, Lambda), Docker, CI/CD, Infrastructure Security</div>',
-    '<div class="sl">Architecture</div><div class="sv">System Design, CRM Architecture, Data Pipelines, Async Processing, RAG Systems</div>',
-    '<div class="sl">AI and Tools</div><div class="sv">LLMs, RAG Pipelines, GitHub Copilot, Claude, Cursor</div>',
-    '<div class="sl">Integrations</div><div class="sv">Entrata, Yardi, MRI, Concurrent (PMS), ZOOP.ONE, Experian, Slack, WhatsApp API</div>',
-    '<div class="sl">Product</div><div class="sv">Requirements Analysis, Cross-Functional Collaboration, Sprint Planning, Stakeholder Communication</div>',
-    '</div>',
-
-    '<div class="st">Education</div>',
-    '<div style="margin-bottom:8px;"><div class="edu-h"><span class="edu-d">B.Tech - Electronics and Communication Engineering</span><span class="ed">2017 - 2021</span></div>',
-    '<div class="edu-s">National Institute of Technology, Uttarakhand - Institute of National Importance</div></div>',
-    '<div><div class="edu-h"><span class="edu-d">Higher Secondary (XII) - 90%</span><span class="ed">2016</span></div>',
-    '<div class="edu-s">Gurukul Public School - Alwar, Rajasthan</div></div>'
-  ].join('\n');
-
-  var w = window.open('','_blank');
-  w.document.write('<!DOCTYPE html><html><head><title>Sachin Choudhary - Resume</title><style>' + styles + '</style></head><body>' + body + '<scr' + 'ipt>window.print();</scr' + 'ipt></body></html>');
+  var styles=['@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap");','*{margin:0;padding:0;box-sizing:border-box;}','body{font-family:"Outfit",sans-serif;color:#111;max-width:800px;margin:0 auto;padding:40px 48px;line-height:1.55;font-size:13.5px;}','h1{font-family:"Source Code Pro",monospace;font-size:26px;font-weight:700;margin-bottom:2px;}','.sub{font-size:14px;color:#555;margin-bottom:10px;}','.info{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:#777;margin-bottom:16px;border-bottom:2px solid #111;padding-bottom:14px;}','.info a{color:#777;text-decoration:none;}','.st{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;border-bottom:1px solid #ddd;padding-bottom:4px;margin:18px 0 10px;color:#111;}','.sum{font-size:13px;color:#444;line-height:1.7;}','.ei{margin-bottom:16px;}','.eh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1px;}','.er{font-size:14px;font-weight:700;}','.ed{font-size:11.5px;color:#999;white-space:nowrap;}','.ec{font-size:12.5px;color:#666;margin-bottom:2px;}','.et{display:inline-block;font-size:10px;color:#888;background:#f5f5f5;padding:1px 7px;border-radius:3px;margin-bottom:6px;}','ul{list-style:none;padding:0;}','ul li{font-size:12.5px;color:#444;line-height:1.65;padding-left:12px;position:relative;margin-bottom:3px;}','ul li::before{content:"\\2022";position:absolute;left:0;color:#bbb;}','.sg{display:grid;grid-template-columns:110px 1fr;gap:6px 14px;font-size:12px;}','.sl{font-weight:600;color:#111;padding-top:1px;}','.sv{color:#444;line-height:1.6;}','.edu-h{display:flex;justify-content:space-between;align-items:baseline;}','.edu-d{font-size:13px;font-weight:600;}','.edu-s{font-size:12px;color:#666;}','@media print{body{padding:28px 36px;max-width:100%;}@page{margin:.5in;size:A4;}}'].join('\n');
+  var body=['<h1>Sachin Choudhary</h1>','<div class="sub">Senior Software Engineer</div>','<div class="info">','<span>India</span>','<a href="mailto:sachinchoudhary.nituk@gmail.com">sachinchoudhary.nituk@gmail.com</a>','<a href="tel:+918502892661">+91 8502892661</a>','<a href="https://www.linkedin.com/in/sachin-choudhary-655898191/">LinkedIn</a>','<a href="https://github.com/sachinjaat">GitHub</a>','</div>','<div class="st">Professional Summary</div>','<div class="sum">Senior Software Engineer with 5+ years designing and scaling backend systems at high-growth startups across EdTech, FinTech, PropTech, and AI. Specialized in CRM architecture, sales process automation, Property Management System integrations, RAG systems, and data pipeline engineering. AI-native engineer leveraging Copilot, Claude, and Cursor daily. Built products from 0 to 1 through 10 to 100 at ASL (UniAcco, UniCreds, UniScholars) and currently building 0 to 1 at VerbaFlo.AI.</div>','<div class="st">Professional Experience</div>','<div class="ei"><div class="eh"><span class="er">Senior Software Engineer</span><span class="ed">Jan 2025 - Present</span></div>','<div class="ec">VerbaFlo.AI - India</div>','<div class="et">AI Communications Platform | Real Estate | PMS Integrations | $7M Funded</div>','<ul>','<li>Built deep integrations with the world most adopted Property Management Systems syncing property, lease, and resident data</li>','<li>Redesigned data synchronization architecture, achieving 10x performance improvement</li>','<li>Engineered automated operations pipelines eliminating manual intervention</li>','<li>Built automated data verification and integrity/sanity frameworks</li>','<li>Developed multi-channel outreach platform supporting voice, email, and WhatsApp</li>','</ul></div>','<div class="ei"><div class="eh"><span class="er">Senior Backend Engineer</span><span class="ed">Apr 2024 - Dec 2024</span></div>','<div class="ec">UniScholars (ASL) - Mumbai</div>','<div class="et">EdTech | Study Abroad | 30K+ Students</div>','<ul>','<li>Designed automated workflow engine for lead management with WhatsApp notifications and targeted campaigns</li>','<li>Created admin-configurable workflow system for non-technical teams</li>','<li>Optimized database performance reducing response times by 60%</li>','</ul></div>','<div class="ei"><div class="eh"><span class="er">Backend Engineer</span><span class="ed">Apr 2023 - Mar 2024</span></div>','<div class="ec">UniScholars (ASL) - Mumbai</div>','<div class="et">EdTech | CRM | 200+ Counsellors</div>','<ul>','<li>Architected core backend infrastructure for CRM and web platform</li>','<li>Managed AWS infrastructure (EC2, S3, RDS) ensuring high availability</li>','<li>Built async task processing with Celery for high-volume lead processing</li>','</ul></div>','<div class="ei"><div class="eh"><span class="er">Full Stack Engineer</span><span class="ed">Apr 2021 - Mar 2023</span></div>','<div class="ec">UniAcco and UniCreds (ASL) - Mumbai</div>','<div class="et">PropTech | FinTech | Rs 2,000Cr+ Loans</div>','<ul>','<li>Built backend for global student accommodation marketplace and education loan platform</li>','<li>Developed real-time sales dashboard with conversion funnel analytics</li>','<li>Integrated ZOOP.ONE (KYC), Experian (credit), Slack, Facebook APIs</li>','<li>Led Angular to React migration</li>','</ul></div>','<div class="ei"><div class="eh"><span class="er">Web Development Intern</span><span class="ed">Jun 2020 - Sep 2020</span></div>','<div class="ec">Prof-Cess</div>','<ul><li>Transitioned front-end from Angular to React JS</li></ul></div>','<div class="st">Technical Skills</div>','<div class="sg">','<div class="sl">Languages</div><div class="sv">Python, JavaScript, Go, SQL</div>','<div class="sl">Backend</div><div class="sv">Django REST Framework, FastAPI, Node.js, Celery, WebSockets, REST API Design</div>','<div class="sl">Frontend</div><div class="sv">React.js, HTML5, CSS3</div>','<div class="sl">Databases</div><div class="sv">PostgreSQL, MySQL, MongoDB, Redis</div>','<div class="sl">Cloud/DevOps</div><div class="sv">AWS (EC2, S3, RDS, Lambda), Docker, CI/CD, Infrastructure Security</div>','<div class="sl">Architecture</div><div class="sv">System Design, CRM Architecture, Data Pipelines, Async Processing, RAG Systems</div>','<div class="sl">AI and Tools</div><div class="sv">LLMs, RAG Pipelines, GitHub Copilot, Claude, Cursor</div>','<div class="sl">Product</div><div class="sv">Requirements Analysis, Cross-Functional Collaboration, Sprint Planning</div>','</div>','<div class="st">Education</div>','<div style="margin-bottom:8px;"><div class="edu-h"><span class="edu-d">B.Tech - Electronics and Communication Engineering</span><span class="ed">2017 - 2021</span></div>','<div class="edu-s">National Institute of Technology, Uttarakhand - Institute of National Importance</div></div>','<div><div class="edu-h"><span class="edu-d">Higher Secondary (XII) - 90%</span><span class="ed">2016</span></div>','<div class="edu-s">Gurukul Public School - Alwar, Rajasthan</div></div>'].join('\n');
+  var w=window.open('','_blank');
+  w.document.write('<!DOCTYPE html><html><head><title>Sachin Choudhary - Resume</title><style>'+styles+'</style></head><body>'+body+'<scr'+'ipt>window.print();</scr'+'ipt></body></html>');
   w.document.close();
 });
 </script>
